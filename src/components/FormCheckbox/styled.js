@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
 
-const CheckContainer = styled.TouchableOpacity`
+export const CheckContainer = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   margin: 5px;
