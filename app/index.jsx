@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import SignatureScreen from "react-native-signature-canvas";
 
-import FormTermoInput from "../src/components/FormTermoInput/Index";
+import FormTermoInput from "../src/components/FormInput";
 
 export default function Home() {
   const [cliente, setCliente] = useState("");
@@ -65,7 +65,6 @@ export default function Home() {
       contentContainerStyle={{ paddingBottom: 50 }}
     >
       <Text style={styles.title}>Novo Termo de Visita</Text>
-      FormSe
       <FormTermoInput
         label="Cliente"
         value={cliente}
