@@ -13,9 +13,23 @@ import {
 import SignatureScreen from "react-native-signature-canvas";
 
 import FormTermoInput from "../src/components/FormInput";
+import FormSection from "../src/components/FormSection";
 
 export default function Home() {
-  const [cliente, setCliente] = useState("");
+  const [formData, setFormData] = useState({
+    unidade: "",
+    data: new Date().toLocaleDateString("pt-BR"), // Já inicia com a data de hoje
+    chegada: "",
+    saida: "",
+    matricula: "81683", // Dado fixo conforme sua foto
+    tecnico: "VITOR FRANÇA",
+    motivo: "",
+    equipamento: "Prefeitura",
+    servico: "",
+    situacao: "Problema resolvido",
+    responsavelNome: "",
+    responsavelCargo: "",
+  });
   const [servico, setServico] = useState("");
   const signatureRef = useRef();
 
@@ -30,6 +44,13 @@ export default function Home() {
     }
     // Isso solicita a imagem ao componente de assinatura
     signatureRef.current.readSignature();
+  };
+
+  const handleInputChange = (campo, valor) => {
+    setFormData({
+      ...formData,
+      [campo]: valor,
+    });
   };
 
   // Função chamada automaticamente após o readSignature() ter sucesso
@@ -65,12 +86,27 @@ export default function Home() {
       contentContainerStyle={{ paddingBottom: 50 }}
     >
       <Text style={styles.title}>Novo Termo de Visita</Text>
-      <FormTermoInput
-        label="Cliente"
-        value={cliente}
-        onChangeText={setCliente}
-        placeholder="Nome do cliente"
-      />
+
+      <FormSection title="1. IDENTIFICAÇÃO DA VISITA">
+        <FormTermoInput
+          label="UNIDADE VISITADA"
+          value={formData.unidade}
+          onChangeText={(text) => handleInputChange("unidade", text)}
+        />
+        <FormTermoInput
+          label="DATA DA VSITA"
+          value={formData.data}
+          editable={false}
+        />
+        <FormTermoInput label="HORARIO DE CHEGADA" value={formData.chegada} />
+        <FormTermoInput label="HORARIO DE SAIDA" value={formData.saida} />
+      </FormSection>
+
+      <FormSection title="2. IDENTIFICAÇÃO DO TÉCNICO">
+        <FormTermoInput label="Nome:" value="VITOR FRANÇA" editable={true} />
+        <FormTermoInput label="Matrícula:" value="81683" editable={false} />
+      </FormSection>
+
       <View style={styles.inputGroup}>
         <Text style={styles.label}>Descrição do Serviço</Text>
         <TextInput
