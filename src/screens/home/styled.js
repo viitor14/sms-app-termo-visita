@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 export const Container = styled.ScrollView`
   flex: 1;
   padding: 20px;
-  background-color: #f5f5f5;
+  background-color: #f0f0f9;
 `;
 
 export const Title = styled.Text`
@@ -13,6 +13,11 @@ export const Title = styled.Text`
   margin-top: 40px;
   color: #333;
   text-align: center;
+`;
+export const DivForm = styled.View`
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #fff;
 `;
 
 export const Row = styled.View`
