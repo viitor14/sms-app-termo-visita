@@ -1,9 +1,10 @@
 import styled from "styled-components/native";
+import { neutralColors } from "../../utils/colors";
 
 export const Container = styled.ScrollView`
   flex: 1;
   padding: 20px;
-  background-color: #f0f0f9;
+  background-color: ${neutralColors.p90};
 `;
 
 export const Title = styled.Text`
@@ -15,6 +16,8 @@ export const Title = styled.Text`
   text-align: center;
 `;
 export const DivForm = styled.View`
+  display: flex;
+  gap: 10px;
   padding: 10px;
   border-radius: 6px;
   background-color: #fff;
@@ -26,16 +29,19 @@ export const Row = styled.View`
 
 export const LabelInterno = styled.Text`
   font-size: 14px;
-  font-weight: 600;
-  margin-top: 10px;
-  margin-bottom: 5px;
-  color: #444;
+  font-weight: 400;
+  color: ${neutralColors.n20};
+  text-transform: capitalize;
 `;
 
-export const InputArea = styled.TextInput`
-  background-color: #fff;
-  border-width: 1px;
-  border-color: #000;
+export const InputArea = styled.TextInput.attrs({
+  textAlignVertical: "top",
+  placeholderTextColor: neutralColors.n60,
+})`
+  border: 2px solid ${neutralColors.n90};
+  border-radius: 6px;
+  color: ${neutralColors.n20};
+  margin-top: 4px;
   padding: 10px;
   height: 90px;
   text-align: top;
@@ -44,11 +50,9 @@ export const InputArea = styled.TextInput`
 export const SignatureContainer = styled.View`
   width: 100%;
   height: 220px;
-  border-width: 1px;
-  border-color: #000;
+  border: 2px solid ${neutralColors.n90};
+  border-radius: 6px;
   background-color: #fff;
-  margin-bottom: 20px;
-  margin-top: 10px;
 `;
 
 export const Button = styled.TouchableOpacity`

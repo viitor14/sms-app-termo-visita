@@ -9,7 +9,7 @@ export default function FormSection({ title, children }) {
   return (
     <SectionContainer>
       <SectionHeader>
-        <SectionTitle>{title}</SectionTitle>
+        <SectionTitle>{title} </SectionTitle>
       </SectionHeader>
       <Content>{children}</Content>
     </SectionContainer>

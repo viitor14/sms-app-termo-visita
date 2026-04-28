@@ -1,23 +1,17 @@
 import styled from "styled-components/native";
+import { neutralColors } from "../../utils/colors";
 
 export const SectionContainer = styled.View`
-  border: 1px solid #000;
-  margin-bottom: 16px;
-  background-color: #fff;
+  padding: 0px;
 `;
 
-export const SectionHeader = styled.View`
-  background-color: #f0f0f0;
-  padding: 6px;
-  border-bottom-width: 1px;
-  border-bottom-color: #000;
-`;
+export const SectionHeader = styled.View``;
 
 export const SectionTitle = styled.Text`
   font-size: 12px;
-  font-weight: bold;
+  color: ${neutralColors.n20};
+  font-weight: 400;
+  text-transform: capitalize;
 `;
 
-export const Content = styled.View`
-  padding: 10px;
-`;
+export const Content = styled.View``;

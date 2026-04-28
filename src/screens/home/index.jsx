@@ -14,7 +14,6 @@ import {
   DivForm,
   InputArea,
   LabelInterno,
-  Row,
   SignatureContainer,
   Title,
 } from "./styled";
@@ -84,50 +83,40 @@ export default function Home() {
 
   return (
     <Container scrollEnabled={scrollEnabled}>
-      <Title>Novo Termo de Visita</Title>
+      <Title>Novo Termdo ded Visita</Title>
 
       <DivForm>
-        <FormSection title="1. IDENTIFICAÇÃO DA UNIDADE">
+        <FormSection>
           <FormTermoInput
-            label="UNIDADE VISITADA"
+            label="unidade visitada"
             value={formData.unidade}
             onChangeText={(t) => handleInputChange("unidade", t)}
             placeholder="Nome da Unidade"
           />
-          <Row>
-            {/* Removido o SignatureContainer daqui para o layout não quebrar */}
-            <View style={{ flex: 1, marginRight: 10 }}>
-              <FormTermoInput
-                label="CHEGADA"
-                value={formData.chegada}
-                onChangeText={(t) => handleInputChange("chegada", t)}
-                placeholder="08:00"
-              />
-            </View>
-            <View style={{ flex: 1 }}>
-              <FormTermoInput
-                label="SAÍDA"
-                value={formData.saida}
-                onChangeText={(t) => handleInputChange("saida", t)}
-                placeholder="10:00"
-              />
-            </View>
-          </Row>
+          {/* Removido o SignatureContainer daqui para o layout não quebrar */}
+          <View style={{ flex: 1 }}>
+            <FormTermoInput
+              label="Horário de Chegada"
+              value={formData.chegada}
+              onChangeText={(t) => handleInputChange("chegada", t)}
+              placeholder="08:00"
+            />
+          </View>
         </FormSection>
 
-        <FormSection title="2. MOTIVO DA VISITA">
-          <FormCheckbox
-            label="Manutenção Preventiva"
-            selected={formData.motivos.includes("Manutenção Preventiva")}
-            onPress={() =>
-              handleToggleArray("motivos", "Manutenção Preventiva")
-            }
-          />
+        <FormSection title="Motivo da visita *">
           <FormCheckbox
             label="Instalação de Equipamento"
             selected={formData.motivos.includes("Instalação de Equipamento")}
             onPress={() =>
               handleToggleArray("motivos", "Instalação de Equipamento")
+            }
+          />
+          <FormCheckbox
+            label="Manutenção Preventiva"
+            selected={formData.motivos.includes("Manutenção Preventiva")}
+            onPress={() =>
+              handleToggleArray("motivos", "Manutenção Preventiva")
             }
           />
           <FormCheckbox
@@ -137,14 +126,22 @@ export default function Home() {
           />
         </FormSection>
 
-        <FormSection title="3. EQUIPAMENTOS / SERVIÇO">
+        <FormSection
+          styles={{ marginBottom: 40 }}
+          title="Serviços realizados *"
+        >
           <FormTermoInput
-            label="EQUIPAMENTO / SETOR"
+            label="Equipamento"
             value={formData.equipamento}
             onChangeText={(t) => handleInputChange("equipamento", t)}
             placeholder="Ex: Desktop, Impressora..."
           />
-          <LabelInterno>DESCRIÇÃO DO SERVIÇO</LabelInterno>
+          <FormTermoInput
+            label="Nº de série"
+            value={formData.numeroSerie}
+            onChangeText={(t) => handleInputChange("numeroSerie", t)}
+          />
+          <LabelInterno>Descrição do serviço</LabelInterno>
           <InputArea
             value={formData.servico}
             onChangeText={(t) => handleInputChange("servico", t)}
@@ -153,7 +150,7 @@ export default function Home() {
           />
         </FormSection>
 
-        <FormSection title="4. SITUAÇÃO FINAL">
+        <FormSection title="Situação final">
           <FormCheckbox
             label="Problema Resolvido"
             selected={formData.situacao.includes("Problema Resolvido")}
@@ -164,7 +161,7 @@ export default function Home() {
             selected={formData.situacao.includes("Necessita Retorno")}
             onPress={() => handleToggleArray("situacao", "Necessita Retorno")}
           />
-          <LabelInterno>OBSERVAÇÕES TÉCNICAS</LabelInterno>
+          <LabelInterno>Observações técnicas</LabelInterno>
           <InputArea
             value={formData.obsTecnicas}
             onChangeText={(t) => handleInputChange("obsTecnicas", t)}
@@ -173,20 +170,20 @@ export default function Home() {
           />
         </FormSection>
 
-        <FormSection title="5. RESPONSÁVEL DA UNIDADE">
+        <FormSection title="Responsavel da unidade / Testemunha da visita">
           <FormTermoInput
-            label="NOME DO RESPONSÁVEL"
+            label="Nome do responsavel"
             value={formData.responsavelNome}
             onChangeText={(t) => handleInputChange("responsavelNome", t)}
           />
           <FormTermoInput
-            label="CARGO"
+            label="Cargo / Função"
             value={formData.responsavelCargo}
             onChangeText={(t) => handleInputChange("responsavelCargo", t)}
           />
         </FormSection>
 
-        <FormSection title="ASSINATURA: RESPONSÁVEL (ACOMPANHAMENTO)">
+        <FormSection title="Assinatura: Responsável">
           <SignatureContainer>
             <SignatureScreen
               ref={refAssinaturaResponsavel}
@@ -197,12 +194,37 @@ export default function Home() {
               onBegin={() => setScrollEnabled(false)}
               onEnd={() => setScrollEnabled(true)}
               descriptionText="Assinatura do Responsável"
-              webStyle={`.m-signature-pad--footer { display: none; } body,html { height: 180px; }`}
+              backgroundColor="#ffffff"
+              penColor="#000000"
+              webStyle={`
+                  html, body { 
+                    width: 100%; 
+                    height: 100%; 
+                    margin: 0; 
+                    padding: 0; 
+                    background-color: #ffffff; 
+                  }
+                  .m-signature-pad { 
+                    box-shadow: none; 
+                    border: none; 
+                    margin: 0; 
+                    padding: 0; 
+                    background-color: #ffffff; 
+                  }
+                  .m-signature-pad--body { 
+                    bottom: 0px; /* ISSO MATA O ESPAÇAMENTO EM BRANCO NO FINAL */
+                    border: none; 
+                    background-color: #ffffff; 
+                  }
+                  .m-signature-pad--footer { 
+                    display: none; 
+                  }
+                `}
             />
           </SignatureContainer>
         </FormSection>
 
-        <FormSection title="ASSINATURA: TÉCNICO DE TIC">
+        <FormSection title="Assinatura: Técnico TIC">
           {/* Corrigido aqui: Usando LabelInterno em vez de style inexistente */}
           <LabelInterno>Técnico: {formData.tecnico}</LabelInterno>
           <SignatureContainer>
@@ -213,26 +235,32 @@ export default function Home() {
               onBegin={() => setScrollEnabled(false)}
               onEnd={() => setScrollEnabled(true)}
               descriptionText="Assinatura do Técnico"
-              webStyle={`.m-signature-pad--footer { display: none; } body,html { height: 180px; }`}
-            />
-          </SignatureContainer>
-        </FormSection>
-
-        <FormSection title="ASSINATURA: TESTEMUNHA">
-          <FormTermoInput
-            label="NOME DA TESTEMUNHA"
-            value={formData.testemunhaNome}
-            onChangeText={(t) => handleInputChange("testemunhaNome", t)}
-          />
-          <SignatureContainer>
-            <SignatureScreen
-              ref={refAssinaturaTestemunha}
-              onOK={(img) => handleInputChange("imgAssinaturaTestemunha", img)}
-              onEmpty={() => handleInputChange("imgAssinaturaTestemunha", null)}
-              onBegin={() => setScrollEnabled(false)}
-              onEnd={() => setScrollEnabled(true)}
-              descriptionText="Assinatura da Testemunha"
-              webStyle={`.m-signature-pad--footer { display: none; } body,html { height: 180px; }`}
+              backgroundColor="#ffffff"
+              penColor="#000000"
+              webStyle={`
+                  html, body { 
+                    width: 100%; 
+                    height: 100%; 
+                    margin: 0; 
+                    padding: 0; 
+                    background-color: #ffffff; 
+                  }
+                  .m-signature-pad { 
+                    box-shadow: none; 
+                    border: none; 
+                    margin: 0; 
+                    padding: 0; 
+                    background-color: #ffffff; 
+                  }
+                  .m-signature-pad--body { 
+                    bottom: 0px; /* ISSO MATA O ESPAÇAMENTO EM BRANCO NO FINAL */
+                    border: none; 
+                    background-color: #ffffff; 
+                  }
+                  .m-signature-pad--footer { 
+                    display: none; 
+                  }
+                `}
             />
           </SignatureContainer>
         </FormSection>
