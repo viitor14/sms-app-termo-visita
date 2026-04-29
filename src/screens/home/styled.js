@@ -99,3 +99,12 @@ export const ResumoText = styled.Text`
   color: #333;
   margin-bottom: 8px;
 `;
+
+export const ResumoLabel = styled.View`
+  flex-direction: row;
+`;
+
+export const TextoNegrito = styled.Text`
+  font-weight: bold;
+  color: #333;
+`;
