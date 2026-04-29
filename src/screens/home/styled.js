@@ -9,8 +9,9 @@ export const Container = styled.ScrollView`
 `;
 
 export const Title = styled.Text`
+  font-family: "Poppins_600SemiBold";
   font-size: 22px;
-  font-weight: bold;
+  //font-weight: bold;
   margin-bottom: 20px;
   margin-top: 40px;
   color: #333;

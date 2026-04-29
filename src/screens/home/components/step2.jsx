@@ -84,7 +84,6 @@ export default function Step2({
         <BotaoLimpar
           onPress={() => refAssinaturaTecnico.current?.clearSignature()}
         >
-          <TextoBotaoLimpar>Limpar Assinatura</TextoBotaoLimpar>
           <IconClear size={20} />
         </BotaoLimpar>
       </FormSection>
