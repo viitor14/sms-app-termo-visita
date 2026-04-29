@@ -1,5 +1,5 @@
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import SignatureScreen from "react-native-signature-canvas";
-
 import FormTermoInput from "../../../components/FormInput";
 import FormSection from "../../../components/FormSection";
 
@@ -69,6 +69,7 @@ export default function Step2({
           label="Nome do responsável"
           value={formData.responsavelNome}
           onChangeText={(t) => handleInputChange("responsavelNome", t)}
+          icon={<FontAwesome6 name="user" size={24} color="black" />}
         />
         <FormTermoInput
           label="Cargo / Função"

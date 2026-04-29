@@ -1,5 +1,3 @@
-import { View } from "react-native";
-
 import FormCheckbox from "../../../components/FormCheckbox";
 import FormTermoInput from "../../../components/FormInput";
 import FormSection from "../../../components/FormSection";
@@ -19,14 +17,12 @@ export default function Step1({
           onChangeText={(t) => handleInputChange("unidade", t)}
           placeholder="Nome da Unidade"
         />
-        <View style={{ flex: 1 }}>
-          <FormTermoInput
-            label="Horário de Chegada"
-            value={formData.chegada}
-            onChangeText={(t) => handleInputChange("chegada", t)}
-            placeholder="08:00"
-          />
-        </View>
+        <FormTermoInput
+          label="Horário de Chegada"
+          value={formData.chegada}
+          onChangeText={(t) => handleInputChange("chegada", t)}
+          placeholder="08:00"
+        />
       </FormSection>
 
       <FormSection title="Motivo da visita *">
