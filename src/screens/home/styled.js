@@ -1,5 +1,6 @@
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import styled from "styled-components/native";
-import { neutralColors } from "../../utils/colors";
+import { neutralColors, tertiaryColors } from "../../utils/colors";
 
 export const Container = styled.ScrollView`
   flex: 1;
@@ -69,7 +70,6 @@ export const ButtonText = styled.Text`
   font-weight: bold;
 `;
 
-// Adicione isso no seu styled.js
 export const ButtonRow = styled.View`
   flex-direction: row;
   justify-content: space-between;
@@ -77,15 +77,13 @@ export const ButtonRow = styled.View`
   margin-bottom: 30px;
 `;
 
-// Um botão que ocupa quase metade da tela para ficar lado a lado
 export const HalfButton = styled.TouchableOpacity`
-  background-color: ${(props) =>
-    props.outline ? "transparent" : "#003FA3"}; /* Use sua cor primária aqui */
+  background-color: ${(props) => (props.outline ? "transparent" : "#003FA3")};
   border: ${(props) => (props.outline ? "2px solid #003FA3" : "none")};
   padding: 16px;
   border-radius: 8px;
   align-items: center;
-  flex: 0.48; /* Ocupa 48% da linha */
+  flex: 0.48;
 `;
 
 export const HalfButtonText = styled.Text`
@@ -107,4 +105,29 @@ export const ResumoLabel = styled.View`
 export const TextoNegrito = styled.Text`
   font-weight: bold;
   color: #333;
+`;
+
+export const BotaoLimpar = styled.TouchableOpacity`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-self: flex-end;
+  background-color: ${tertiaryColors.tertiary};
+  gap: 4px;
+  border-radius: 6px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  padding: 10px;
+`;
+
+export const TextoBotaoLimpar = styled.Text`
+  color: ${tertiaryColors.t90};
+  font-size: 14px;
+  font-weight: 500;
+`;
+
+export const IconClear = styled(MaterialIcons).attrs({
+  name: "clear",
+})`
+  color: ${tertiaryColors.t90};
 `;

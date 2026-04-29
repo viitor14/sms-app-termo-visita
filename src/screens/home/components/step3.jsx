@@ -4,7 +4,7 @@ import FormSection from "../../../components/FormSection";
 
 import { ResumoLabel, ResumoText, TextoNegrito } from "../styled";
 
-export const Step3 = (formData) => {
+export default function Step3({ formData }) {
   return (
     <FormSection title="Resumo do Chamado">
       <ResumoLabel>
@@ -31,4 +31,4 @@ export const Step3 = (formData) => {
       </ResumoText>
     </FormSection>
   );
-};
+}

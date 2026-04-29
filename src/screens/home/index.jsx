@@ -113,9 +113,9 @@ export default function Home() {
           <Step2
             formData={formData}
             handleInputChange={handleInputChange}
-            setScrollEnabled={setScrollEnabled}
             refAssinaturaResponsavel={refAssinaturaResponsavel}
             refAssinaturaTecnico={refAssinaturaTecnico}
+            setScrollEnabled={setScrollEnabled}
           />
         )}
 
@@ -134,16 +134,14 @@ export default function Home() {
               <HalfButtonText>Próximo</HalfButtonText>
             </HalfButton>
           )}
-          {step === 3 &&
-            (console.log(formData),
-            (
-              <HalfButton
-                onPress={handleFinalizar}
-                style={{ backgroundColor: "#28a745" }}
-              >
-                <HalfButtonText>Finalizar e Gerar PDF</HalfButtonText>
-              </HalfButton>
-            ))}
+          {step === 3 && (
+            <HalfButton
+              onPress={handleFinalizar}
+              style={{ backgroundColor: "#28a745" }}
+            >
+              <HalfButtonText>Finalizar e Gerar PDF</HalfButtonText>
+            </HalfButton>
+          )}
         </ButtonRow>
       </DivForm>
     </Container>
