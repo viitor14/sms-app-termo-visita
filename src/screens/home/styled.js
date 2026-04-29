@@ -68,3 +68,34 @@ export const ButtonText = styled.Text`
   font-size: 18px;
   font-weight: bold;
 `;
+
+// Adicione isso no seu styled.js
+export const ButtonRow = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 30px;
+`;
+
+// Um botão que ocupa quase metade da tela para ficar lado a lado
+export const HalfButton = styled.TouchableOpacity`
+  background-color: ${(props) =>
+    props.outline ? "transparent" : "#003FA3"}; /* Use sua cor primária aqui */
+  border: ${(props) => (props.outline ? "2px solid #003FA3" : "none")};
+  padding: 16px;
+  border-radius: 8px;
+  align-items: center;
+  flex: 0.48; /* Ocupa 48% da linha */
+`;
+
+export const HalfButtonText = styled.Text`
+  color: ${(props) => (props.outline ? "#003FA3" : "#fff")};
+  font-size: 16px;
+  font-weight: bold;
+`;
+
+export const ResumoText = styled.Text`
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 8px;
+`;
