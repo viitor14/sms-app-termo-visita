@@ -1,28 +1,40 @@
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import styled from "styled-components/native";
-import { neutralColors, tertiaryColors } from "../../utils/colors";
 
+import styled from "styled-components/native";
+import {
+  neutralColors,
+  primaryColors,
+  tertiaryColors,
+} from "../../utils/colors";
 export const Container = styled.ScrollView`
   flex: 1;
-  padding: 20px;
+  padding: 6px;
   background-color: ${neutralColors.p90};
+`;
+
+export const DivNav = styled.View`
+  flex-direction: row;
+  border-radius: 6px;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  margin-bottom: 20px;
 `;
 
 export const Title = styled.Text`
   font-family: "Poppins_600SemiBold";
   font-size: 22px;
   //font-weight: bold;
-  margin-bottom: 20px;
-  margin-top: 40px;
   color: #333;
   text-align: center;
 `;
+
 export const DivForm = styled.View`
   display: flex;
   gap: 10px;
   padding: 10px;
   border-radius: 6px;
-  background-color: #fff;
 `;
 
 export const Row = styled.View`
@@ -49,12 +61,33 @@ export const InputArea = styled.TextInput.attrs({
   text-align: top;
 `;
 
+export const DivAssinatura = styled.View`
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 10px;
+`;
+
+export const DivIconAndTitleAss = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const IconDraw = styled(MaterialCommunityIcons).attrs({
+  name: "draw",
+})`
+  color: ${primaryColors.primary};
+`;
+
+export const TitleAssinatura = styled.Text`
+  font-family: "Poppins_400Regular";
+  font-size: 16px;
+`;
+
 export const SignatureContainer = styled.View`
   width: 100%;
   height: 220px;
-  border: 2px solid ${neutralColors.n90};
+  border: 2px dashed ${neutralColors.n70};
   border-radius: 6px;
-  background-color: #fff;
 `;
 
 export const Button = styled.TouchableOpacity`
@@ -117,18 +150,127 @@ export const BotaoLimpar = styled.TouchableOpacity`
   gap: 4px;
   border-radius: 6px;
   margin-top: 5px;
-  margin-bottom: 15px;
-  padding: 10px;
+  padding: 6px;
 `;
 
 export const TextoBotaoLimpar = styled.Text`
   color: ${tertiaryColors.t90};
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 12px;
+  font-family: "Poppins_600SemiBold";
 `;
 
 export const IconClear = styled(MaterialIcons).attrs({
   name: "clear",
 })`
   color: ${tertiaryColors.t90};
+`;
+
+export const colors = {
+  primary: "#002661", // Azul escuro da Prefeitura
+  activeGlow: "rgba(0, 38, 97, 0.15)", // Halo de luz suave
+  textDark: "#000000",
+  textLight: "#808080",
+  borderLight: "#D0D0D0",
+};
+
+export const StepperContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%; /* Ajuste conforme necessário para centralizar */
+  align-self: center;
+  margin-top: 15px;
+  margin-bottom: 25px;
+  position: relative; /* Importante para a linha de fundo */
+`;
+
+// A linha cinza que fica por trás de tudo conectando os passos
+export const BackgroundLine = styled.View`
+  position: absolute;
+  top: 16px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background-color: ${neutralColors.neutral};
+  z-index: -1;
+`;
+
+export const StepItem = styled.View`
+  align-items: center;
+  width: 25%;
+`;
+
+export const StepCircle = styled.View`
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  align-items: center;
+  justify-content: center;
+  border-width: 2px;
+
+  /* Logica de cor do fundo */
+  background-color: ${(props) =>
+    props.completed || props.active ? primaryColors.primary : "#FFFFFF"};
+
+  border-color: ${(props) =>
+    props.completed || props.active
+      ? primaryColors.primary
+      : neutralColors.neutral};
+
+  /* Efeito de Halo de Luz (apenas para o passo ativo) */
+  ${(props) =>
+    props.active &&
+    `
+    box-shadow: 0px 0px 8px ${primaryColors.p80};
+    border-color: ${primaryColors.p80};
+    border-width: 2px;
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+  `}
+`;
+
+export const StepNumber = styled.Text`
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffffff; /* Texto branco dentro do círculo escuro */
+`;
+
+export const StepLabel = styled.Text`
+  font-size: 11px;
+  margin-top: 8px;
+  text-align: center;
+  font-family: "Poppins_500Medium";
+  font-weight: ${(props) => (props.active || props.completed ? "600" : "500")};
+  color: ${(props) =>
+    props.active || props.completed
+      ? primaryColors.primary
+      : neutralColors.neutral};
+`;
+
+export const ActiveLine = styled.View`
+  position: absolute;
+  top: 16px; /* Mesma altura da BackgroundLine */
+  left: 10%;
+  height: 2px;
+  background-color: ${primaryColors.primary}; /* Sua cor azul */
+  z-index: -1;
+
+  width: ${(props) => props.width || "0%"};
+`;
+
+export const DivTitleStep = styled.View`
+  background-color: transparent;
+`;
+
+export const TitleStep = styled.Text`
+  font-family: "Poppins_600SemiBold";
+  font-size: 20px;
+  color: #000;
+`;
+
+export const SubTitle = styled.Text`
+  font-size: 14px;
+  color: ${neutralColors.neutral};
+  font-family: "Poppins_300Light";
 `;

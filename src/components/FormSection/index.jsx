@@ -1,16 +1,25 @@
+import { MaterialIcons } from "@expo/vector-icons";
+
+import { primaryColors } from "../../utils/colors";
+
 import {
   Content,
   SectionContainer,
   SectionHeader,
-  SectionTitle,
+  TitleSection,
 } from "./styled";
 
-export default function FormSection({ title, children }) {
+export default function FormSection({ title, children, icon }) {
   return (
     <SectionContainer>
       <SectionHeader>
-        <SectionTitle>{title} </SectionTitle>
+        {icon && (
+          <MaterialIcons name={icon} size={30} color={primaryColors.primary} />
+        )}
+
+        <TitleSection>{title}</TitleSection>
       </SectionHeader>
+
       <Content>{children}</Content>
     </SectionContainer>
   );

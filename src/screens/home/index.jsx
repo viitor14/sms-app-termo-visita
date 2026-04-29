@@ -1,3 +1,4 @@
+import { MaterialIcons } from "@expo/vector-icons";
 import { useEffect, useRef, useState } from "react";
 import { Alert, View } from "react-native";
 import { gerarTermoPDF } from "../../utils/pdfGenerator";
@@ -7,12 +8,19 @@ import Step2 from "./components/step2";
 import Step3 from "./components/step3";
 
 import {
+  ActiveLine,
+  BackgroundLine,
   ButtonRow,
   Container,
   DivForm,
+  DivNav,
   HalfButton,
   HalfButtonText,
-  Title,
+  StepCircle,
+  StepItem,
+  StepLabel,
+  StepNumber,
+  StepperContainer,
 } from "./styled";
 
 export default function Home() {
@@ -94,11 +102,51 @@ export default function Home() {
 
   return (
     <Container scrollEnabled={scrollEnabled}>
-      <Title>
-        {step === 1 && "Passo 1: Dados da Visita"}
-        {step === 2 && "Passo 2: Dados das Assinaturas"}
-        {step === 3 && "Passo 3: Revisão e Envio"}
-      </Title>
+      <DivNav>
+        <StepperContainer>
+          <BackgroundLine />
+          <ActiveLine width={step === 1 ? "0%" : step === 2 ? "40%" : "80%"} />
+
+          <StepItem>
+            <StepCircle completed={step > 1} active={step === 1}>
+              {step > 1 ? (
+                <MaterialIcons name="check" size={18} color="#FFFFFF" />
+              ) : (
+                <StepNumber>1</StepNumber>
+              )}
+            </StepCircle>
+            <StepLabel completed={step > 1} active={step === 1}>
+              Detalhes
+            </StepLabel>
+          </StepItem>
+
+          <StepItem>
+            <StepCircle completed={step > 2} active={step === 2}>
+              {step > 2 ? (
+                <MaterialIcons name="check" size={18} color="#FFFFFF" />
+              ) : (
+                <StepNumber>2</StepNumber>
+              )}
+            </StepCircle>
+            <StepLabel completed={step > 2} active={step === 2}>
+              Assinatura
+            </StepLabel>
+          </StepItem>
+
+          <StepItem>
+            <StepCircle completed={step > 3} active={step === 3}>
+              {step > 3 ? (
+                <MaterialIcons name="check" size={18} color="#FFFFFF" />
+              ) : (
+                <StepNumber>3</StepNumber>
+              )}
+            </StepCircle>
+            <StepLabel completed={step > 3} active={step === 3}>
+              Checklist
+            </StepLabel>
+          </StepItem>
+        </StepperContainer>
+      </DivNav>
 
       <DivForm>
         {step === 1 && (
