@@ -3,9 +3,6 @@ import * as Sharing from "expo-sharing";
 import { Alert } from "react-native";
 export const gerarTermoPDF = async (dados) => {
   try {
-    // Usamos o REF aqui para garantir que ele pegue as imagens recém salvas!
-    //const dados = formDataRef.current;
-
     const htmlContent = `
       <html>
         <head>
@@ -84,11 +81,7 @@ export const gerarTermoPDF = async (dados) => {
               <p class="sig-sub">Técnico de TIC</p>
             </div>
 
-            <div class="signature-box">
-               ${dados.imgAssinaturaTestemunha ? `<img src="${dados.imgAssinaturaTestemunha}" class="sig-img" />` : '<div class="sig-empty"></div>'}
-              <p class="sig-label">${dados.testemunhaNome || "_________________________"}</p>
-              <p class="sig-sub">Testemunha / Visitante</p>
-            </div>
+    
           </div>
         </body>
       </html>
