@@ -70,6 +70,8 @@ export const DivAssinatura = styled.View`
 export const DivIconAndTitleAss = styled.View`
   flex-direction: row;
   align-items: center;
+  gap: 4px;
+  padding: 14px 0;
 `;
 
 export const IconDraw = styled(MaterialCommunityIcons).attrs({
@@ -79,8 +81,8 @@ export const IconDraw = styled(MaterialCommunityIcons).attrs({
 `;
 
 export const TitleAssinatura = styled.Text`
-  font-family: "Poppins_400Regular";
-  font-size: 16px;
+  font-family: "Poppins_500Medium";
+  font-size: 20px;
 `;
 
 export const SignatureContainer = styled.View`
@@ -261,6 +263,7 @@ export const ActiveLine = styled.View`
 
 export const DivTitleStep = styled.View`
   background-color: transparent;
+  margin-bottom: 20px;
 `;
 
 export const TitleStep = styled.Text`

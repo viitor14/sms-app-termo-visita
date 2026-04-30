@@ -3,13 +3,9 @@ import { Container, DivIconInput, InputField, Label } from "./styled";
 export default function FormInput({ label, icon, ...props }) {
   return (
     <Container>
-      <Label>{label}</Label>
+      {icon && <View style={{ justifyContent: "center" }}>{icon}</View>}
       <DivIconInput>
-        {icon && (
-          <View style={{ marginRight: 8, justifyContent: "center" }}>
-            {icon}
-          </View>
-        )}
+        <Label>{label}</Label>
         <InputField {...props} />
       </DivIconInput>
     </Container>

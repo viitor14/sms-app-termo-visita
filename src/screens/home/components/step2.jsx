@@ -38,9 +38,7 @@ export default function Step2({
       <DivAssinatura>
         <DivIconAndTitleAss>
           <IconDraw size={28} />
-          <TitleAssinatura>
-            Assinatura do responsavel/testemunha
-          </TitleAssinatura>
+          <TitleAssinatura>Assinatura do responsável</TitleAssinatura>
         </DivIconAndTitleAss>
         <SignatureContainer>
           <SignatureScreen
@@ -69,47 +67,71 @@ export default function Step2({
           label="Nome do responsável"
           value={formData.responsavelNome}
           onChangeText={(t) => handleInputChange("responsavelNome", t)}
-          icon={<FontAwesome6 name="user" size={24} color="black" />}
+          icon={
+            <FontAwesome6 name="user" size={18} color={neutralColors.neutral} />
+          }
+          placeholder="Responsável / Testemunha"
         />
         <FormTermoInput
-          label="Cargo / Função"
+          label="Cargo / Função do responsável"
           value={formData.responsavelCargo}
           onChangeText={(t) => handleInputChange("responsavelCargo", t)}
+          icon={
+            <FontAwesome6
+              name="address-card"
+              size={18}
+              color={neutralColors.neutral}
+            />
+          }
+          placeholder="Ex: Diretor Administrativo"
         />
       </FormSection>
 
-      <FormSection title="Técnico TIC">
+      <FormSection title="Técnico TIC *">
         <FormTermoInput
           label="Nome do Técnico"
           value={formData.tecnico}
           onChangeText={(t) => handleInputChange("tecnico", t)}
+          icon={
+            <FontAwesome6 name="user" size={18} color={neutralColors.neutral} />
+          }
+          placeholder="Seu nome"
         />
         <FormTermoInput
           label="Matrícula"
           value={formData.matricula}
           onChangeText={(t) => handleInputChange("matricula", t)}
+          icon={
+            <FontAwesome6 name="user" size={18} color={neutralColors.neutral} />
+          }
+          placeholder="EX: 12345"
         />
+        <DivAssinatura>
+          <DivIconAndTitleAss>
+            <IconDraw size={28} />
+            <TitleAssinatura>Assinatura Técnico TIC</TitleAssinatura>
+          </DivIconAndTitleAss>
+          <SignatureContainer>
+            <SignatureScreen
+              ref={refAssinaturaTecnico}
+              onOK={(img) => handleInputChange("imgAssinaturaTecnico", img)}
+              onEmpty={() => handleInputChange("imgAssinaturaTecnico", null)}
+              onBegin={() => setScrollEnabled(false)}
+              onEnd={() => setScrollEnabled(true)}
+              descriptionText="Assinatura do Técnico"
+              backgroundColor={neutralColors.n95}
+              penColor="#000000"
+              webStyle={`html, body { width: 100%; height: 100%; margin: 0; padding: 0; background-color: #ffffff; } .m-signature-pad { box-shadow: none; border: none; margin: 0; padding: 0; background-color: #ffffff; } .m-signature-pad--body { bottom: 0px; border: none; background-color: ${neutralColors.n95}} .m-signature-pad--footer { display: none; }`}
+            />
+          </SignatureContainer>
 
-        <SignatureContainer>
-          <SignatureScreen
-            ref={refAssinaturaTecnico}
-            onOK={(img) => handleInputChange("imgAssinaturaTecnico", img)}
-            onEmpty={() => handleInputChange("imgAssinaturaTecnico", null)}
-            onBegin={() => setScrollEnabled(false)}
-            onEnd={() => setScrollEnabled(true)}
-            descriptionText="Assinatura do Técnico"
-            backgroundColor={neutralColors.n95}
-            penColor="#000000"
-            webStyle={`html, body { width: 100%; height: 100%; margin: 0; padding: 0; background-color: #ffffff; } .m-signature-pad { box-shadow: none; border: none; margin: 0; padding: 0; background-color: #ffffff; } .m-signature-pad--body { bottom: 0px; border: none; background-color: ${neutralColors.n95}} .m-signature-pad--footer { display: none; }`}
-          />
-        </SignatureContainer>
-
-        <BotaoLimpar
-          onPress={() => refAssinaturaTecnico.current?.clearSignature()}
-        >
-          <IconClear size={20} />
-          <TextoBotaoLimpar>Limpar</TextoBotaoLimpar>
-        </BotaoLimpar>
+          <BotaoLimpar
+            onPress={() => refAssinaturaTecnico.current?.clearSignature()}
+          >
+            <IconClear size={20} />
+            <TextoBotaoLimpar>Limpar</TextoBotaoLimpar>
+          </BotaoLimpar>
+        </DivAssinatura>
       </FormSection>
     </>
   );

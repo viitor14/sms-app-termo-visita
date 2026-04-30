@@ -2,14 +2,13 @@ import styled from "styled-components/native";
 import { neutralColors } from "../../utils/colors";
 
 export const SectionContainer = styled.View`
-  padding: 12px;
-  background-color: #fff;
   border-radius: 8px;
 `;
 
 export const SectionHeader = styled.View`
   flex-direction: row;
   align-items: center;
+  margin-bottom: 6px;
 `;
 
 export const SectionTitle = styled.Text`
@@ -22,6 +21,6 @@ export const SectionTitle = styled.Text`
 export const Content = styled.View``;
 
 export const TitleSection = styled.Text`
-  font-family: "Poppins_500Medium";
-  font-size: 14px;
+  font-family: "Poppins_600SemiBold";
+  font-size: 16px;
 `;

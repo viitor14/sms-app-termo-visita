@@ -1,31 +1,38 @@
 import styled from "styled-components/native";
-import { neutralColors } from "../../utils/colors";
+import { neutralColors, primaryColors } from "../../utils/colors";
 
 export const Container = styled.View`
   margin-bottom: 12px;
-  flex-direction: column;
+  flex-direction: row;
+  background-color: #fff;
+  padding: 12px 10px;
+  border-radius: 20px;
+  gap: 10px;
 `;
 
 export const Label = styled.Text`
   font-size: 14px;
   font-weight: 400;
-  color: ${neutralColors.n20};
+  color: ${primaryColors.primary};
   text-transform: capitalize;
-  margin-bottom: 4px;
+  font-family: "Poppins_600SemiBold";
 `;
 
 export const DivIconInput = styled.View`
-  width: 100%;
-  flex-direction: row;
-  align-items: center;
+  flex: 1;
+  flex-direction: column;
 `;
 
-export const InputField = styled.TextInput`
-  border: 2px solid ${neutralColors.n90};
-  border-radius: 6px;
-  padding: 8px;
+export const InputField = styled.TextInput.attrs({
+  underlineColorAndroid: "transparent",
+})`
   background-color: #fff;
   font-size: 16px;
   color: ${neutralColors.n10};
-  width: 100%;
+  flex: 1;
+  border: none;
+  outline-width: 0;
+  outline: none;
+  padding: 2px;
+  font-family: "Poppins_300Light";
 `;
