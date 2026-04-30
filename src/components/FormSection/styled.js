@@ -8,7 +8,6 @@ export const SectionContainer = styled.View`
 export const SectionHeader = styled.View`
   flex-direction: row;
   align-items: center;
-  margin-bottom: 6px;
 `;
 
 export const SectionTitle = styled.Text`

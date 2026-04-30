@@ -12,7 +12,6 @@ export const Container = styled.View`
 
 export const Label = styled.Text`
   font-size: 14px;
-  font-weight: 400;
   color: ${primaryColors.primary};
   text-transform: capitalize;
   font-family: "Poppins_600SemiBold";

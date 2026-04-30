@@ -154,6 +154,8 @@ export default function Home() {
             formData={formData}
             handleInputChange={handleInputChange}
             handleToggleArray={handleToggleArray}
+            title="Informação da visita"
+            subTitle="Descreva com mais detalhes sobre informação da visita"
           />
         )}
 
@@ -164,6 +166,8 @@ export default function Home() {
             refAssinaturaResponsavel={refAssinaturaResponsavel}
             refAssinaturaTecnico={refAssinaturaTecnico}
             setScrollEnabled={setScrollEnabled}
+            title="Assinatura Digital"
+            subTitle="Peça assinatura do responsável/testemunha para concluir o termo."
           />
         )}
 
@@ -179,7 +183,7 @@ export default function Home() {
           )}
           {step < 3 && (
             <HalfButton onPress={handleNextStep}>
-              <HalfButtonText>Próximo</HalfButtonText>
+              <HalfButtonText>Próxima Etapa</HalfButtonText>
             </HalfButton>
           )}
           {step === 3 && (

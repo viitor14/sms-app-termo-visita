@@ -5,6 +5,7 @@ import styled from "styled-components/native";
 import {
   neutralColors,
   primaryColors,
+  secondaryColors,
   tertiaryColors,
 } from "../../utils/colors";
 export const Container = styled.ScrollView`
@@ -43,22 +44,25 @@ export const Row = styled.View`
 
 export const LabelInterno = styled.Text`
   font-size: 14px;
-  font-weight: 400;
-  color: ${neutralColors.n20};
+  font-family: "Poppins_600SemiBold";
+
+  color: ${primaryColors.primary};
   text-transform: capitalize;
+  text-align: center;
 `;
 
 export const InputArea = styled.TextInput.attrs({
   textAlignVertical: "top",
   placeholderTextColor: neutralColors.n60,
 })`
-  border: 2px solid ${neutralColors.n90};
+  border: 1px solid ${neutralColors.n90};
   border-radius: 6px;
   color: ${neutralColors.n20};
   margin-top: 4px;
   padding: 10px;
   height: 90px;
   text-align: top;
+  font-family: "Poppins_400Regular";
 `;
 
 export const DivAssinatura = styled.View`
@@ -114,8 +118,10 @@ export const ButtonRow = styled.View`
 `;
 
 export const HalfButton = styled.TouchableOpacity`
-  background-color: ${(props) => (props.outline ? "transparent" : "#003FA3")};
-  border: ${(props) => (props.outline ? "2px solid #003FA3" : "none")};
+  background-color: ${(props) =>
+    props.outline ? "transparent" : secondaryColors.secondary};
+  border: ${(props) =>
+    props.outline ? `2px solid ${primaryColors.primary}` : "none"};
   padding: 16px;
   border-radius: 8px;
   align-items: center;
@@ -123,7 +129,8 @@ export const HalfButton = styled.TouchableOpacity`
 `;
 
 export const HalfButtonText = styled.Text`
-  color: ${(props) => (props.outline ? "#003FA3" : "#fff")};
+  color: ${(props) =>
+    props.outline ? primaryColors.primary : secondaryColors.s40};
   font-size: 16px;
   font-weight: bold;
 `;
@@ -263,7 +270,6 @@ export const ActiveLine = styled.View`
 
 export const DivTitleStep = styled.View`
   background-color: transparent;
-  margin-bottom: 20px;
 `;
 
 export const TitleStep = styled.Text`
@@ -276,4 +282,18 @@ export const SubTitle = styled.Text`
   font-size: 14px;
   color: ${neutralColors.neutral};
   font-family: "Poppins_300Light";
+`;
+
+export const DivCheckBoxs = styled.View`
+  border-radius: 16px;
+  background-color: #fff;
+  padding: 10px;
+  gap: 6px;
+`;
+
+export const DivDescricaoServico = styled.View`
+  flex-direction: column;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 20px;
 `;

@@ -4,7 +4,6 @@ import { neutralColors, primaryColors } from "../../utils/colors";
 export const CheckContainer = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
-  margin: 5px;
 `;
 
 export const Box = styled.View`
@@ -12,7 +11,7 @@ export const Box = styled.View`
   height: 24px;
   border-width: 1px;
   border-radius: 6px;
-  margin-right: 12px;
+  margin-right: 6px;
   align-items: center;
   justify-content: center;
 
@@ -23,6 +22,8 @@ export const Box = styled.View`
 `;
 
 export const CheckText = styled.Text`
+  font-family: ${(props) =>
+    props.selected ? "Poppins_500Medium" : "Poppins_300Light"};
   font-size: 14px;
   flex: 1;
 `;

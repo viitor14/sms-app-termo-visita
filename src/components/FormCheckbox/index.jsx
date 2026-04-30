@@ -7,7 +7,7 @@ export default function FormCheckbox({ label, selected, onPress }) {
       <Box selected={selected}>
         {selected && <MaterialIcons name="check" size={16} color="#fff" />}
       </Box>
-      <CheckText>{label}</CheckText>
+      <CheckText selected={selected}>{label}</CheckText>
     </CheckContainer>
   );
 }

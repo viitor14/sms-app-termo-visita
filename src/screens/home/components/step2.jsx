@@ -25,14 +25,14 @@ export default function Step2({
   refAssinaturaResponsavel,
   refAssinaturaTecnico,
   setScrollEnabled,
+  title,
+  subTitle,
 }) {
   return (
     <>
       <DivTitleStep>
-        <TitleStep>Assinatura Digital</TitleStep>
-        <SubTitle>
-          Peça assinatura do responsável/testemunha para concluir o termo.
-        </SubTitle>
+        <TitleStep>{title}</TitleStep>
+        <SubTitle>{subTitle}</SubTitle>
       </DivTitleStep>
 
       <DivAssinatura>
