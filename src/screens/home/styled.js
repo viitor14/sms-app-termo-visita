@@ -142,7 +142,8 @@ export const ResumoText = styled.Text`
 `;
 
 export const ResumoLabel = styled.View`
-  flex-direction: row;
+  flex-direction: column;
+  gap: 2px;
 `;
 
 export const TextoNegrito = styled.Text`
@@ -293,7 +294,50 @@ export const DivCheckBoxs = styled.View`
 
 export const DivDescricaoServico = styled.View`
   flex-direction: column;
-  background-color: #fff;
+  background-color: #ffffff;
   padding: 10px;
   border-radius: 20px;
+`;
+
+export const DivDetalhesVisita = styled.View`
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom-width: 1px;
+  border-bottom-color: ${neutralColors.n80};
+`;
+
+export const DivTitleDetalhes = styled.Text`
+  font-size: 16px;
+  font-family: "Poppins_500Medium";
+  color: ${primaryColors.primary};
+`;
+
+export const DivIcon = styled.View`
+  align-items: center;
+  justify-content: center;
+  background-color: ${primaryColors.p90};
+  border-radius: 6px;
+  padding: 10px;
+  width: 36px;
+  height: 36px;
+`;
+
+export const DivInfoLugar = styled.View`
+  margin-top: 10px;
+  gap: 10px;
+`;
+
+export const TitleNomeUnidade = styled.Text`
+  font-size: 14px;
+  font-family: "Poppins_500Medium";
+  color: ${neutralColors.neutral};
+  text-transform: uppercase;
+`;
+
+export const NomeUnidade = styled.Text`
+  font-size: 14px;
+  font-family: "Poppins_400Regular";
+  text-transform: capitalize;
 `;

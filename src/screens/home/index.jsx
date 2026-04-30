@@ -24,24 +24,24 @@ import {
 } from "./styled";
 
 export default function Home() {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(3);
   const [formData, setFormData] = useState({
-    unidade: "",
+    unidade: "Usf 90",
     data: new Date().toLocaleDateString("pt-BR"),
-    chegada: "",
+    chegada: "12:33",
     saida: new Date().toLocaleTimeString("pt-BR", {
       hour: "2-digit",
       minute: "2-digit",
     }),
-    matricula: "",
-    tecnico: "",
-    motivos: [],
-    equipamento: "",
-    servico: "",
-    situacao: [],
-    obsTecnicas: "",
-    responsavelNome: "",
-    responsavelCargo: "",
+    matricula: "11111",
+    tecnico: "Vitor",
+    motivos: ["Teste"],
+    equipamento: "Desktop",
+    servico: "Desktop parado",
+    situacao: ["Problema resolvido"],
+    obsTecnicas: "Solicitar novo ponto",
+    responsavelNome: "Manoel",
+    responsavelCargo: "Dono",
     imgAssinaturaResponsavel: null,
     imgAssinaturaTecnico: null,
   });
