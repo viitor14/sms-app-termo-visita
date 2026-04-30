@@ -121,7 +121,7 @@ export default function Step2({
               descriptionText="Assinatura do Técnico"
               backgroundColor={neutralColors.n95}
               penColor="#000000"
-              webStyle={`html, body { width: 100%; height: 100%; margin: 0; padding: 0; background-color: #ffffff; } .m-signature-pad { box-shadow: none; border: none; margin: 0; padding: 0; background-color: #ffffff; } .m-signature-pad--body { bottom: 0px; border: none; background-color: ${neutralColors.n95}} .m-signature-pad--footer { display: none; }`}
+              webStyle={`html, body { width: 100%; height: 100%; margin: 0; padding: 0; background-color: #ffffff; } .m-signature-pad { box-shadow: none; border: none; margin: 0; padding: 0; background-color: #ffffff; } .m-signature-pad--body { bottom: 0px; border: none; background-color: #fff} .m-signature-pad--footer { display: none; }`}
             />
           </SignatureContainer>
 
