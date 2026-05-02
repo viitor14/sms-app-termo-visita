@@ -1,32 +1,56 @@
-import {
-  Poppins_100Thin,
-  Poppins_200ExtraLight,
-  Poppins_300Light,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-  Poppins_800ExtraBold,
-  Poppins_900Black,
-  useFonts,
-} from "@expo-google-fonts/poppins";
-import HomeScreen from "../src/screens/home";
+import { useRouter } from "expo-router";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function App() {
-  const [fontesCarregadas] = useFonts({
-    Poppins_100Thin,
-    Poppins_200ExtraLight,
-    Poppins_300Light,
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-    Poppins_800ExtraBold,
-    Poppins_900Black,
-  });
+export default function MenuScreen() {
+  const router = useRouter();
 
-  if (!fontesCarregadas) {
-    return null;
-  }
-  return <HomeScreen />;
+  return (
+    <View style={styles.container}>
+      <Text style={styles.titulo}>O que você deseja fazer?</Text>
+
+      <TouchableOpacity
+        style={styles.botao}
+        onPress={() => router.push("/chamado")}
+      >
+        <Text style={styles.textoBotao}>Abrir novo Chamado</Text>
+      </TouchableOpacity>
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
+    gap: 16,
+  },
+  titulo: {
+    fontFamily: "Poppins_600SemiBold",
+    fontSize: 22,
+    marginBottom: 20,
+    color: "#333",
+  },
+  botao: {
+    backgroundColor: "#003FA3",
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    width: "80%",
+    alignItems: "center",
+  },
+  textoBotao: {
+    color: "#fff",
+    fontFamily: "Poppins_600SemiBold",
+    fontSize: 16,
+  },
+  botaoSecundario: {
+    backgroundColor: "transparent",
+    borderWidth: 2,
+    borderColor: "#003FA3",
+  },
+  textoSecundario: {
+    color: "#003FA3",
+  },
+});
