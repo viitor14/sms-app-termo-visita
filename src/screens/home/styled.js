@@ -20,7 +20,6 @@ export const DivNav = styled.View`
   align-items: center;
   justify-content: center;
   padding: 12px;
-  margin-bottom: 20px;
 `;
 
 export const Title = styled.Text`
@@ -125,6 +124,7 @@ export const HalfButton = styled.TouchableOpacity`
   padding: 16px;
   border-radius: 8px;
   align-items: center;
+  justify-content: center;
   flex: 0.48;
 `;
 
@@ -175,22 +175,12 @@ export const IconClear = styled(MaterialIcons).attrs({
   color: ${tertiaryColors.t90};
 `;
 
-export const colors = {
-  primary: "#002661", // Azul escuro da Prefeitura
-  activeGlow: "rgba(0, 38, 97, 0.15)", // Halo de luz suave
-  textDark: "#000000",
-  textLight: "#808080",
-  borderLight: "#D0D0D0",
-};
-
 export const StepperContainer = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   width: 90%; /* Ajuste conforme necessário para centralizar */
   align-self: center;
-  margin-top: 15px;
-  margin-bottom: 25px;
   position: relative; /* Importante para a linha de fundo */
 `;
 
@@ -220,19 +210,25 @@ export const StepCircle = styled.View`
 
   /* Logica de cor do fundo */
   background-color: ${(props) =>
-    props.completed || props.active ? primaryColors.primary : "#FFFFFF"};
+    props.completed
+      ? primaryColors.primary
+      : props.active
+        ? secondaryColors.secondary
+        : "#FFFFFF"};
 
   border-color: ${(props) =>
-    props.completed || props.active
+    props.completed
       ? primaryColors.primary
-      : neutralColors.neutral};
+      : props.active
+        ? secondaryColors.secondary
+        : neutralColors.neutral};
 
   /* Efeito de Halo de Luz (apenas para o passo ativo) */
   ${(props) =>
     props.active &&
     `
-    box-shadow: 0px 0px 8px ${primaryColors.p80};
-    border-color: ${primaryColors.p80};
+    box-shadow: 0px 0px 8px ${secondaryColors.s80};
+    border-color: ${secondaryColors.s80};
     border-width: 2px;
     width: 36px;
     height: 36px;
@@ -253,9 +249,11 @@ export const StepLabel = styled.Text`
   font-family: "Poppins_500Medium";
   font-weight: ${(props) => (props.active || props.completed ? "600" : "500")};
   color: ${(props) =>
-    props.active || props.completed
-      ? primaryColors.primary
-      : neutralColors.neutral};
+    props.active
+      ? secondaryColors.secondary
+      : props.completed
+        ? primaryColors.primary
+        : neutralColors.neutral};
 `;
 
 export const ActiveLine = styled.View`
@@ -339,5 +337,4 @@ export const TitleNomeUnidade = styled.Text`
 export const NomeUnidade = styled.Text`
   font-size: 14px;
   font-family: "Poppins_400Regular";
-  text-transform: capitalize;
 `;

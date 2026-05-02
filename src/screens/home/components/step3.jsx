@@ -1,6 +1,6 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 import FormSection from "../../../components/FormSection";
 
@@ -10,99 +10,110 @@ import {
   DivIcon,
   DivInfoLugar,
   DivTitleDetalhes,
+  DivTitleStep,
   NomeUnidade,
   ResumoLabel,
-  ResumoText,
+  SubTitle,
   TitleNomeUnidade,
 } from "../styled";
 
-export default function Step3({ formData }) {
+export default function Step3({ formData, subTitle }) {
   return (
-    <FormSection>
-      <View
-        style={{
-          backgroundColor: "#fff",
-          padding: "10px",
-          borderRadius: "10px",
-        }}
-      >
-        <DivDetalhesVisita>
-          <DivIcon>
-            <MaterialIcons
-              name="place"
-              size={18}
-              color={primaryColors.primary}
-            />
-          </DivIcon>
-          <DivTitleDetalhes>Informação da unidade</DivTitleDetalhes>
-        </DivDetalhesVisita>
-        <DivInfoLugar>
-          <ResumoLabel>
-            <TitleNomeUnidade>Unidade</TitleNomeUnidade>
-            <NomeUnidade>{formData.unidade}</NomeUnidade>
-          </ResumoLabel>
-          <ResumoLabel>
-            <TitleNomeUnidade>Data</TitleNomeUnidade>
-            <NomeUnidade>{formData.data}</NomeUnidade>
-          </ResumoLabel>
-          <ResumoLabel>
-            <TitleNomeUnidade>Horario de chegada</TitleNomeUnidade>
-            <NomeUnidade>{formData.chegada}</NomeUnidade>
-          </ResumoLabel>
-          <ResumoLabel>
-            <TitleNomeUnidade>
-              Responsavel / Testemunha da unidade
-            </TitleNomeUnidade>
-            <NomeUnidade>{formData.responsavelNome}</NomeUnidade>
-          </ResumoLabel>
-        </DivInfoLugar>
-      </View>
+    <>
+      <DivTitleStep>
+        <SubTitle>{subTitle}</SubTitle>
+      </DivTitleStep>
 
-      <View
-        style={{
-          backgroundColor: "#fff",
-          padding: "10px",
-          borderRadius: "10px",
-          marginTop: "20px",
-        }}
-      >
-        <DivDetalhesVisita>
-          <DivIcon>
-            <MaterialIcons
-              name="miscellaneous-services"
-              size={18}
-              color={primaryColors.primary}
-            />
-          </DivIcon>
-          <DivTitleDetalhes>Serviço realizado</DivTitleDetalhes>
-        </DivDetalhesVisita>
-        <ResumoLabel>
-          <TitleNomeUnidade>
-            Responsavel / Testemunha da unidade
-          </TitleNomeUnidade>
-          <NomeUnidade>{formData.responsavelNome}</NomeUnidade>
-        </ResumoLabel>
-        <ResumoText>
-          <Text style={{ fontWeight: "bold" }}>Técnico:</Text>{" "}
-          {formData.tecnico}
-        </ResumoText>
-        <ResumoText>
-          <Text style={{ fontWeight: "bold" }}>Equipamento:</Text>{" "}
-          {formData.equipamento}
-        </ResumoText>
-        <ResumoText>
-          <Text style={{ fontWeight: "bold" }}>Serviço:</Text>{" "}
-          {formData.servico}
-        </ResumoText>
-        <ResumoText>
-          <Text style={{ fontWeight: "bold" }}>Situação:</Text>{" "}
-          {formData.situacao.join(", ")}
-        </ResumoText>
-        <ResumoText>
-          <Text style={{ fontWeight: "bold" }}>Responsável Local:</Text>{" "}
-          {formData.responsavelNome}
-        </ResumoText>
-      </View>
-    </FormSection>
+      <FormSection>
+        <View
+          style={{
+            backgroundColor: "#fff",
+            padding: "10px",
+            borderRadius: "10px",
+          }}
+        >
+          <DivDetalhesVisita>
+            <DivIcon>
+              <MaterialIcons
+                name="place"
+                size={18}
+                color={primaryColors.primary}
+              />
+            </DivIcon>
+            <DivTitleDetalhes>Informação da unidade</DivTitleDetalhes>
+          </DivDetalhesVisita>
+          <DivInfoLugar>
+            <ResumoLabel>
+              <TitleNomeUnidade>Unidade</TitleNomeUnidade>
+              <NomeUnidade>{formData.unidade}</NomeUnidade>
+            </ResumoLabel>
+            <ResumoLabel>
+              <TitleNomeUnidade>Data</TitleNomeUnidade>
+              <NomeUnidade>{formData.data}</NomeUnidade>
+            </ResumoLabel>
+            <ResumoLabel>
+              <TitleNomeUnidade>Horario de chegada</TitleNomeUnidade>
+              <NomeUnidade>{formData.chegada}</NomeUnidade>
+            </ResumoLabel>
+            <ResumoLabel>
+              <TitleNomeUnidade>
+                Responsavel / Testemunha da unidade
+              </TitleNomeUnidade>
+              <NomeUnidade>{formData.responsavelNome}</NomeUnidade>
+            </ResumoLabel>
+          </DivInfoLugar>
+        </View>
+
+        <View
+          style={{
+            backgroundColor: "#fff",
+            padding: "10px",
+            borderRadius: "10px",
+            marginTop: "20px",
+          }}
+        >
+          <DivDetalhesVisita>
+            <DivIcon>
+              <MaterialIcons
+                name="miscellaneous-services"
+                size={18}
+                color={primaryColors.primary}
+              />
+            </DivIcon>
+            <DivTitleDetalhes>Serviço realizado</DivTitleDetalhes>
+          </DivDetalhesVisita>
+          <DivInfoLugar>
+            <ResumoLabel>
+              <TitleNomeUnidade>
+                Responsavel / Testemunha da unidade
+              </TitleNomeUnidade>
+              <NomeUnidade>
+                {formData.responsavelNome} {`(${formData.responsavelCargo})`}
+              </NomeUnidade>
+            </ResumoLabel>
+            <ResumoLabel>
+              <TitleNomeUnidade>Técnico</TitleNomeUnidade>
+              <NomeUnidade>{formData.tecnico}</NomeUnidade>
+            </ResumoLabel>
+            <ResumoLabel>
+              <TitleNomeUnidade>Equipamento</TitleNomeUnidade>
+              <NomeUnidade>{formData.equipamento}</NomeUnidade>
+            </ResumoLabel>
+            <ResumoLabel>
+              <TitleNomeUnidade>Serviço</TitleNomeUnidade>
+              <NomeUnidade>{formData.servico}</NomeUnidade>
+            </ResumoLabel>
+            <ResumoLabel>
+              <TitleNomeUnidade>Situação</TitleNomeUnidade>
+              <NomeUnidade>{formData.situacao.join(", ")}</NomeUnidade>
+            </ResumoLabel>
+            <ResumoLabel>
+              <TitleNomeUnidade>Oberservações</TitleNomeUnidade>
+              <NomeUnidade>{formData.obsTecnicas}</NomeUnidade>
+            </ResumoLabel>
+          </DivInfoLugar>
+        </View>
+      </FormSection>
+    </>
   );
 }

@@ -24,7 +24,7 @@ import {
 } from "./styled";
 
 export default function Home() {
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     unidade: "Usf 90",
     data: new Date().toLocaleDateString("pt-BR"),
@@ -34,7 +34,7 @@ export default function Home() {
       minute: "2-digit",
     }),
     matricula: "11111",
-    tecnico: "Vitor",
+    tecnico: "Vidtor",
     motivos: ["Teste"],
     equipamento: "Desktop",
     servico: "Desktop parado",
@@ -142,7 +142,7 @@ export default function Home() {
               )}
             </StepCircle>
             <StepLabel completed={step > 3} active={step === 3}>
-              Checklist
+              Revisão
             </StepLabel>
           </StepItem>
         </StepperContainer>
@@ -171,7 +171,12 @@ export default function Home() {
           />
         )}
 
-        {step === 3 && <Step3 formData={formData} />}
+        {step === 3 && (
+          <Step3
+            formData={formData}
+            subTitle="Por favor, revise atentamente todos os dados coletados antes de confirmar a geração do termo de visita."
+          />
+        )}
 
         <ButtonRow>
           {step > 1 ? (
@@ -187,11 +192,8 @@ export default function Home() {
             </HalfButton>
           )}
           {step === 3 && (
-            <HalfButton
-              onPress={handleFinalizar}
-              style={{ backgroundColor: "#28a745" }}
-            >
-              <HalfButtonText>Finalizar e Gerar PDF</HalfButtonText>
+            <HalfButton onPress={handleFinalizar}>
+              <HalfButtonText>Baixar Termo</HalfButtonText>
             </HalfButton>
           )}
         </ButtonRow>
