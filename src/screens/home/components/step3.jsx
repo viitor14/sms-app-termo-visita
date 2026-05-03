@@ -1,14 +1,13 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
-import { View } from "react-native";
-
 import FormSection from "../../../components/FormSection";
 
-import { primaryColors } from "@/src/utils/colors";
+import { primaryColors } from "../../../utils/colors";
 import {
   DivDetalhesVisita,
   DivIcon,
   DivInfoLugar,
+  DivInfos,
   DivTitleDetalhes,
   DivTitleStep,
   NomeUnidade,
@@ -25,13 +24,7 @@ export default function Step3({ formData, subTitle }) {
       </DivTitleStep>
 
       <FormSection>
-        <View
-          style={{
-            backgroundColor: "#fff",
-            padding: "10px",
-            borderRadius: "10px",
-          }}
-        >
+        <DivInfos>
           <DivDetalhesVisita>
             <DivIcon>
               <MaterialIcons
@@ -42,6 +35,7 @@ export default function Step3({ formData, subTitle }) {
             </DivIcon>
             <DivTitleDetalhes>Informação da unidade</DivTitleDetalhes>
           </DivDetalhesVisita>
+
           <DivInfoLugar>
             <ResumoLabel>
               <TitleNomeUnidade>Unidade</TitleNomeUnidade>
@@ -62,16 +56,9 @@ export default function Step3({ formData, subTitle }) {
               <NomeUnidade>{formData.responsavelNome}</NomeUnidade>
             </ResumoLabel>
           </DivInfoLugar>
-        </View>
+        </DivInfos>
 
-        <View
-          style={{
-            backgroundColor: "#fff",
-            padding: "10px",
-            borderRadius: "10px",
-            marginTop: "20px",
-          }}
-        >
+        <DivInfos style={{ marginTop: 20 }}>
           <DivDetalhesVisita>
             <DivIcon>
               <MaterialIcons
@@ -112,7 +99,7 @@ export default function Step3({ formData, subTitle }) {
               <NomeUnidade>{formData.obsTecnicas}</NomeUnidade>
             </ResumoLabel>
           </DivInfoLugar>
-        </View>
+        </DivInfos>
       </FormSection>
     </>
   );

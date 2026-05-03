@@ -306,6 +306,12 @@ export const DivDetalhesVisita = styled.View`
   border-bottom-color: ${neutralColors.n80};
 `;
 
+export const DivInfos = styled.View`
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+`;
+
 export const DivTitleDetalhes = styled.Text`
   font-size: 16px;
   font-family: "Poppins_500Medium";
@@ -325,6 +331,7 @@ export const DivIcon = styled.View`
 export const DivInfoLugar = styled.View`
   margin-top: 10px;
   gap: 10px;
+  padding: 10px;
 `;
 
 export const TitleNomeUnidade = styled.Text`
