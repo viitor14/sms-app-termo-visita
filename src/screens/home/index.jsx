@@ -1,8 +1,8 @@
 import { MaterialIcons } from "@expo/vector-icons";
+import { useLocalSearchParams } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { Alert, View } from "react-native";
 import { gerarTermoPDF } from "../../utils/pdfGenerator";
-
 import Step1 from "./components/step1";
 import Step2 from "./components/step2";
 import Step3 from "./components/step3";
@@ -24,24 +24,25 @@ import {
 } from "./styled";
 
 export default function Home() {
+  const params = useLocalSearchParams();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    unidade: "Usf 90",
+    unidade: "",
     data: new Date().toLocaleDateString("pt-BR"),
-    chegada: "12:33",
+    chegada: params.horaChegada,
     saida: new Date().toLocaleTimeString("pt-BR", {
       hour: "2-digit",
       minute: "2-digit",
     }),
-    matricula: "11111",
-    tecnico: "Vidtor",
-    motivos: ["Teste"],
-    equipamento: "Desktop",
-    servico: "Desktop parado",
-    situacao: ["Problema resolvido"],
-    obsTecnicas: "Solicitar novo ponto",
-    responsavelNome: "Manoel",
-    responsavelCargo: "Dono",
+    matricula: "",
+    tecnico: "",
+    motivos: [],
+    equipamento: "",
+    servico: "",
+    situacao: [],
+    obsTecnicas: "",
+    responsavelNome: "",
+    responsavelCargo: "",
     imgAssinaturaResponsavel: null,
     imgAssinaturaTecnico: null,
   });
