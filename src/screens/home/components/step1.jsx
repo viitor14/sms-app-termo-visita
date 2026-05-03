@@ -15,6 +15,7 @@ import { neutralColors } from "../../../utils/colors";
 import {
   DivCheckBoxs,
   DivDescricaoServico,
+  DivSituacaoFinal,
   DivTitleStep,
   InputArea,
   LabelInterno,
@@ -157,14 +158,8 @@ export default function Step1({
             }
           />
         </DivCheckBoxs>
-        <DivDescricaoServico style={{ marginTop: "20px" }}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              gap: "8px",
-            }}
-          >
+        <DivDescricaoServico style={{ marginTop: 12 }}>
+          <DivSituacaoFinal>
             <MaterialIcons
               name="description"
               size={20}
@@ -172,7 +167,7 @@ export default function Step1({
             />
 
             <LabelInterno>Observações técnicas</LabelInterno>
-          </View>
+          </DivSituacaoFinal>
           <InputArea
             value={formData.obsTecnicas}
             onChangeText={(t) => handleInputChange("obsTecnicas", t)}

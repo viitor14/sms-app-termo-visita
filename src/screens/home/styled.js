@@ -151,6 +151,12 @@ export const TextoNegrito = styled.Text`
   color: #333;
 `;
 
+export const DivSituacaoFinal = styled.View`
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+`;
+
 export const BotaoLimpar = styled.TouchableOpacity`
   display: flex;
   flex-direction: row;
@@ -184,7 +190,6 @@ export const StepperContainer = styled.View`
   position: relative; /* Importante para a linha de fundo */
 `;
 
-// A linha cinza que fica por trás de tudo conectando os passos
 export const BackgroundLine = styled.View`
   position: absolute;
   top: 16px;
