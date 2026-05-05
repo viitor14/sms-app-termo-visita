@@ -96,7 +96,7 @@ export const gerarTermoPDF = async (dados) => {
               flex-direction: column;
               gap: 0;
               padding: 20px;
-              margin-top: 14px;
+              margin-top: 10px;
             }
             .div-assinatura {
               display: flex;
@@ -111,10 +111,10 @@ export const gerarTermoPDF = async (dados) => {
             .div-infos {
               background-color: #e2e2eb;
               border-radius: 2px;
-              padding: 10px;
+              padding: 8px;
               display: flex;
               flex-direction: column;
-              gap: 10px;
+              gap: 8px;
             }
           </style>
         </head>
@@ -139,7 +139,7 @@ export const gerarTermoPDF = async (dados) => {
                 color: #003fa3;
                 font-weight: 500;
                 border-bottom: 2px solid #e2e2eb;
-                margin-bottom: 10px;
+                margin-bottom: 6px;
                 padding-bottom: 10px;
               "
             >
@@ -147,7 +147,10 @@ export const gerarTermoPDF = async (dados) => {
             </p>
             <div style="display: flex; flex-direction: column; gap: 14px">
               <div class="div-infos">
-                <p style="color: #5d5e65">Equipamento/Setor</p>
+                <div style:"width: 100%; display: flex; flex-direction: row; align-items: center; justify-content: space-between; ">
+                  <p style="color: #5d5e65">Equipamento / Nº de Série</p>
+                  <p style="font-size: 10px; color: #000;">${dados.numeroSerie}</p>
+                </div>
                 <p>${dados.equipamento}</p>
               </div>
               <div class="div-infos">
@@ -175,7 +178,7 @@ export const gerarTermoPDF = async (dados) => {
                 color: #003fa3;
                 font-weight: 500;
                 border-bottom: 2px solid #e2e2eb;
-                margin-bottom: 10px;
+                margin-bottom: 6px;
                 padding-bottom: 10px;
               "
             >

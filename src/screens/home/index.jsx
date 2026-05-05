@@ -38,6 +38,7 @@ export default function Home() {
     tecnico: "",
     motivos: [],
     equipamento: "",
+    numeroSerie: "",
     servico: "",
     situacao: [],
     obsTecnicas: "",
