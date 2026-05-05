@@ -98,7 +98,16 @@ export default function Home() {
   };
 
   const handleFinalizar = () => {
-    gerarTermoPDF(formDataRef.current);
+    const saidaAtual = new Date().toLocaleTimeString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    const updatedFormData = { ...formDataRef.current, saida: saidaAtual };
+    setFormData(updatedFormData);
+    formDataRef.current = updatedFormData;
+
+    gerarTermoPDF(updatedFormData);
   };
 
   return (

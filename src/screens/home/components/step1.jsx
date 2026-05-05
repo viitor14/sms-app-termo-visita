@@ -65,6 +65,18 @@ export default function Step1({
       <FormSection title="Motivo da visita *">
         <DivCheckBoxs>
           <FormCheckbox
+            label="Manutenção Preventiva"
+            selected={formData.motivos.includes("Manutenção Preventiva")}
+            onPress={() =>
+              handleToggleArray("motivos", "Manutenção Preventiva")
+            }
+          />
+          <FormCheckbox
+            label="Manutenção corretiva"
+            selected={formData.motivos.includes("Manutenção corretiva")}
+            onPress={() => handleToggleArray("motivos", "Manutenção corretiva")}
+          />
+          <FormCheckbox
             label="Instalação de Equipamento"
             selected={formData.motivos.includes("Instalação de Equipamento")}
             onPress={() =>
@@ -72,16 +84,29 @@ export default function Step1({
             }
           />
           <FormCheckbox
-            label="Manutenção Preventdva"
-            selected={formData.motivos.includes("Manutenção Preventiva")}
-            onPress={() =>
-              handleToggleArray("motivos", "Manutenção Preventiva")
-            }
-          />
-          <FormCheckbox
             label="Rede / Internet"
             selected={formData.motivos.includes("Rede / Internet")}
             onPress={() => handleToggleArray("motivos", "Rede / Internet")}
+          />
+
+          <FormCheckbox
+            label="Configuração de sistema"
+            selected={formData.motivos.includes("Configuração de sistema")}
+            onPress={() =>
+              handleToggleArray("motivos", "Configuração de sistema")
+            }
+          />
+          <FormCheckbox
+            label="Impressoras"
+            selected={formData.motivos.includes("Impressoras")}
+            onPress={() => handleToggleArray("motivos", "Impressoras")}
+          />
+          <FormCheckbox
+            label="Suporte ao usuário"
+            selected={formData.motivos.includes("Suporte ao usuário")}
+            onPress={() =>
+              handleToggleArray("motivos", "ImpreSuporte ao usuáriossoras")
+            }
           />
         </DivCheckBoxs>
       </FormSection>
@@ -147,6 +172,23 @@ export default function Step1({
             label="Necessita Retorno"
             selected={formData.situacao.includes("Necessita Retorno")}
             onPress={() => handleToggleArray("situacao", "Necessita Retorno")}
+          />
+
+          <FormCheckbox
+            label="Necessita retorno técnico"
+            selected={formData.situacao.includes("Necessita retorno técnico")}
+            onPress={() =>
+              handleToggleArray("situacao", "Necessita retorno técnico")
+            }
+          />
+          <FormCheckbox
+            label="Necessita troca de equipamento"
+            selected={formData.situacao.includes(
+              "Necessita troca de equipamento",
+            )}
+            onPress={() =>
+              handleToggleArray("situacao", "Necessita troca de equipamento")
+            }
           />
           <FormCheckbox
             label="Encaminhado para outro setor"

@@ -24,6 +24,7 @@ export const DivIconInput = styled.View`
 
 export const InputField = styled.TextInput.attrs({
   underlineColorAndroid: "transparent",
+  placeholderTextColor: neutralColors.n60,
 })`
   background-color: #fff;
   font-size: 16px;
