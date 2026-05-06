@@ -1,7 +1,8 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { Alert, View } from "react-native";
+import { atualizarChamadoStorage } from "../../database/chamadoStorage";
 import { gerarTermoPDF } from "../../utils/pdfGenerator";
 import Step1 from "./components/step1";
 import Step2 from "./components/step2";
@@ -98,7 +99,7 @@ export default function Home() {
     setStep(step - 1);
   };
 
-  const handleFinalizar = () => {
+  const handleFinalizar = async () => {
     const saidaAtual = new Date().toLocaleTimeString("pt-BR", {
       hour: "2-digit",
       minute: "2-digit",
@@ -108,7 +109,20 @@ export default function Home() {
     setFormData(updatedFormData);
     formDataRef.current = updatedFormData;
 
+    if (params.idChamado) {
+      try {
+        await atualizarChamadoStorage(params.idChamado, updatedFormData);
+      } catch (error) {
+        console.error("Erro ao atualizar banco de dados:", error);
+        alert(
+          "Aviso: O PDF será gerado, mas houve um erro ao salvar o histórico.",
+        );
+      }
+    }
+
     gerarTermoPDF(updatedFormData);
+    alert("Chamado finalizado com sucesso!");
+    router.replace("/");
   };
 
   return (
