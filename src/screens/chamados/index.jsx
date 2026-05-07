@@ -15,6 +15,8 @@ import {
   excluirChamadoStorage,
 } from "../../database/chamadoStorage";
 
+import { TextStatus } from "./styled";
+
 export default function ChamadosAbertos() {
   const [chamadosAbertos, setChamadosAbertos] = useState([]);
   const router = useRouter();
@@ -78,11 +80,11 @@ export default function ChamadosAbertos() {
     >
       <Text style={styles.textoCard}>Chamado ID: {item.id}</Text>
       <Text style={styles.textoCard}>Chegada: {item.chegada}</Text>
-      <Text style={styles.textoStatus}>Status: Em Andamento</Text>
+      <TextStatus>Status: Em Andamento</TextStatus>
 
       <TouchableOpacity
         style={styles.botaoExcluir}
-        onPress={() => handleExcluirChamado(item.id)} // 👈 A mágica acontece aqui!
+        onPress={() => handleExcluirChamado(item.id)}
       >
         <Text style={styles.textoBotao}>Excluir Chamado</Text>
       </TouchableOpacity>
