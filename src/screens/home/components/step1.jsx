@@ -4,6 +4,8 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 
+import { Picker } from "@react-native-picker/picker";
+
 import { View } from "react-native";
 
 import FormCheckbox from "../../../components/FormCheckbox";
@@ -11,14 +13,20 @@ import FormTermoInput from "../../../components/FormInput";
 import FormSection from "../../../components/FormSection";
 
 import { neutralColors } from "../../../utils/colors";
+import { listaUnidades } from "../../../utils/listaUnidades";
 
 import {
+  CaixaPicker,
+  ContainerSelect,
   DivCheckBoxs,
   DivDescricaoServico,
+  DivSelect,
   DivSituacaoFinal,
   DivTitleStep,
   InputArea,
   LabelInterno,
+  LabelSelect,
+  PickerEstilizado,
   SubTitle,
   TitleStep,
 } from "../styled";
@@ -30,6 +38,11 @@ export default function Step1({
   title,
   subTitle,
 }) {
+  const unidadesOrdenadas = [...listaUnidades].sort((a, b) =>
+    a.localeCompare(b),
+  );
+  const listaFinal = ["Selecione uma unidade...", ...unidadesOrdenadas];
+
   return (
     <>
       <DivTitleStep>
@@ -37,16 +50,38 @@ export default function Step1({
         <SubTitle>{subTitle}</SubTitle>
       </DivTitleStep>
       <FormSection title="Unidade Visitada *">
-        <FormTermoInput
-          label="Nome da unidade"
-          value={formData.unidade}
-          onChangeText={(t) => handleInputChange("unidade", t)}
-          placeholder="Nome da Unidade"
-          icon={
-            <FontAwesome6 name="user" size={18} color={neutralColors.neutral} />
-          }
-          placeholder="EX: USF 01 "
-        />
+        <ContainerSelect>
+          <FontAwesome6
+            name="building"
+            size={18}
+            color={neutralColors.neutral}
+          />
+          <DivSelect>
+            <LabelSelect>Nome da unidade</LabelSelect>
+
+            <CaixaPicker>
+              <PickerEstilizado
+                selectedValue={formData.unidade}
+                onValueChange={(itemValue) =>
+                  handleInputChange("unidade", itemValue)
+                }
+              >
+                {listaFinal.map((nome, index) => (
+                  <Picker.Item
+                    key={index}
+                    label={nome}
+                    value={nome === "Selecione uma unidade..." ? "" : nome}
+                    color={
+                      nome === "Selecione uma unidade..."
+                        ? neutralColors.neutral
+                        : "#000"
+                    }
+                  />
+                ))}
+              </PickerEstilizado>
+            </CaixaPicker>
+          </DivSelect>
+        </ContainerSelect>
         <FormTermoInput
           label="Horário de Chegada"
           value={formData.chegada}

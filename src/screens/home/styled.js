@@ -1,7 +1,8 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-
+import { Picker } from "@react-native-picker/picker";
 import styled from "styled-components/native";
+
 import {
   neutralColors,
   primaryColors,
@@ -349,4 +350,44 @@ export const TitleNomeUnidade = styled.Text`
 export const NomeUnidade = styled.Text`
   font-size: 14px;
   font-family: "Poppins_400Regular";
+`;
+
+export const ContainerSelect = styled.View`
+  margin-bottom: 15px;
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 12px 10px;
+  gap: 10px;
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const LabelSelect = styled.Text`
+  font-size: 14px;
+  color: ${primaryColors.primary};
+  margin-bottom: 5px;
+  text-transform: capitalize;
+  font-family: "Poppins_600SemiBold";
+`;
+
+export const CaixaPicker = styled.View`
+  flex-direction: row;
+  align-items: center;
+  border-width: 1px;
+  border-color: ${neutralColors.n80};
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 0px;
+`;
+
+// Estilizando a biblioteca externa diretamente
+export const PickerEstilizado = styled(Picker)`
+  flex: 1;
+  height: 50px;
+  font-family: "Poppins_400Regular";
+`;
+
+export const DivSelect = styled.View`
+  flex-direction: column;
+  flex: 1;
 `;
