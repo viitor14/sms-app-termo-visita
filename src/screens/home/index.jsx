@@ -110,7 +110,9 @@ export default function Home() {
     formDataRef.current = updatedFormData;
 
     if (params.idChamado) {
+      console.log("Chegue aqui");
       try {
+        console.log("Atualizando chamado com ID:", updatedFormData);
         await atualizarChamadoStorage(params.idChamado, updatedFormData);
       } catch (error) {
         console.error("Erro ao atualizar banco de dados:", error);

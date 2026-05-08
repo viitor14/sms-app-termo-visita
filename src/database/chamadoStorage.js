@@ -44,7 +44,6 @@ export const atualizarChamadoStorage = async (idChamado, dadosAtualizados) => {
   try {
     const chamadosExistentes = await buscarChamados();
 
-    // Mapeia a lista e substitui apenas o chamado que tem o ID correspondente
     const novaLista = chamadosExistentes.map((chamado) => {
       if (chamado.id === idChamado) {
         return { ...chamado, ...dadosAtualizados, status: "concluido" };

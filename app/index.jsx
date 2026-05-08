@@ -35,6 +35,13 @@ export default function MenuScreen() {
     router.push("/chamadoAbertos");
   };
 
+  const handleIrParaRelatorios = () => {
+    router.push("/relatorios");
+  };
+
+  const handleIrParaHistorico = () => {
+    router.push("/historico");
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>O que você deseja fazer?</Text>
@@ -45,6 +52,14 @@ export default function MenuScreen() {
 
       <TouchableOpacity style={styles.botao} onPress={handleBuscarChamados}>
         <Text style={styles.textoBotao}>Buscar Chamados</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.botao} onPress={handleIrParaRelatorios}>
+        <Text style={styles.textoBotao}>Relatórios</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.botao} onPress={handleIrParaHistorico}>
+        <Text style={styles.textoBotao}>Histórico</Text>
       </TouchableOpacity>
     </View>
   );
