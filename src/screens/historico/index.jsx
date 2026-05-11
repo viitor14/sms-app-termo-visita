@@ -20,7 +20,6 @@ export default function Historico() {
     const carregarHistorico = async () => {
       const chamados = await buscarChamados();
 
-      // Filtra apenas os que já foram finalizados
       const concluidos = chamados.filter((c) => c.status === "concluido");
 
       // Ordena do mais recente para o mais antigo (usando o ID que criamos com Date.now)
@@ -45,10 +44,7 @@ export default function Historico() {
       ? chamadosConcluidos
       : chamadosConcluidos.filter((c) => c.unidade === filtroUnidade);
 
-  // Função para quando o técnico clicar em "Visualizar"
   const handleVisualizar = (chamado) => {
-    console.log("Chamado selecionado para visualização:", chamado);
-    // Manda ele direto para uma nova tela com os dados completos, sem usar modais!
     router.push({
       pathname: "/visualizarChamado",
       params: {
@@ -56,7 +52,19 @@ export default function Historico() {
         unidade: chamado.unidade,
         chegada: chamado.chegada,
         saida: chamado.saida,
-        observacao: chamado.observacao,
+        data: chamado.data,
+        motivos: chamado.motivos,
+        equipamento: chamado.equipamento,
+        numeroSerial: chamado.numeroSerie,
+        observacao: chamado.obsTecnicas,
+        servico: chamado.servico,
+        situacao: chamado.situacao,
+        nomeResponsavel: chamado.responsavelNome,
+        cargoResponsavel: chamado.responsavelCargo,
+        imgAssinaturaResponsavel: chamado.imgAssinaturaResponsavel,
+        nomeTecnico: chamado.tecnico,
+        matriculaTecnico: chamado.matricula,
+        imgAssinaturaTecnico: chamado.imgAssinaturaTecnico,
       },
     });
   };
