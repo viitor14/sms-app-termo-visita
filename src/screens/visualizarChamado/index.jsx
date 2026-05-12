@@ -1,34 +1,78 @@
 import { Stack, useLocalSearchParams } from "expo-router";
 import React from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { gerarTermoPDF } from "../../utils/pdfGenerator";
-// Importe seus styled components de Container, Titulo, etc.
+
+import { neutralColors } from "../../utils/colors";
+
+import {
+  Container,
+  ContainerScroll,
+  DivData,
+  DivDataEHorario,
+  DivNomeDaUnidade,
+  DivVisitaId,
+  TextoUnidade,
+  TituloDiv,
+} from "./styled";
 
 export default function VisualizarChamado() {
   const params = useLocalSearchParams();
-  console.log("Parâmetros recebidos na tela de VisualizarChamado:", params);
 
   return (
-    <ScrollView
-      style={{ flex: 1, backgroundColor: "#d8d8d8" }}
-      // contentContainerStyle é o ideal para dar padding dentro do ScrollView
-      contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
-    >
-      <Stack.Screen options={{ title: "Detalhes do Chamado" }} />
+    <ContainerScroll>
+      <Stack.Screen options={{ title: "Detalhes da Visita" }} />
 
-      <Text style={{ fontSize: 14, color: "#666" }}>ID: {params.id}</Text>
-      <Text style={{ fontSize: 22, fontWeight: "bold", marginVertical: 10 }}>
-        {params.unidade}
-      </Text>
+      <Container>
+        <DivVisitaId>
+          <TituloDiv>VISITA ID</TituloDiv>
+          <TituloDiv
+            style={{
+              color: "#000",
+            }}
+          >
+            {params.id}
+          </TituloDiv>
+        </DivVisitaId>
+        <DivNomeDaUnidade>
+          <TituloDiv>UNIDADE</TituloDiv>
+          <TextoUnidade>{params.unidade}</TextoUnidade>
+        </DivNomeDaUnidade>
+      </Container>
 
-      <View
-        style={{ backgroundColor: "#f9f9f9", padding: 15, borderRadius: 10 }}
-      >
-        <Text style={{ fontWeight: "bold", marginBottom: 5 }}>Horários:</Text>
-        <Text>Chegada: {params.chegada}</Text>
-        <Text>Saída: {params.saida}</Text>
-        <Text>Data da visita: {params.data}</Text>
-      </View>
+      <Container>
+        <DivDataEHorario>
+          <DivData>
+            <Text
+              style={{
+                fontFamily: "Poppins_500Medium",
+                color: neutralColors.neutral,
+              }}
+            >
+              Data
+            </Text>
+            <Text style={{ fontFamily: "Poppins_500Medium" }}>
+              {params.data}
+            </Text>
+          </DivData>
+          <DivData>
+            <Text
+              style={{
+                fontFamily: "Poppins_500Medium",
+                color: neutralColors.neutral,
+              }}
+            >
+              HORÁRIOS{" "}
+            </Text>
+            <Text style={{ fontFamily: "Poppins_500Medium" }}>
+              {params.chegada} - {params.saida}
+            </Text>
+          </DivData>
+        </DivDataEHorario>
+
+        <Text>{params.motivos}</Text>
+        <Text>{params.servico}</Text>
+      </Container>
 
       <View
         style={{
@@ -41,7 +85,6 @@ export default function VisualizarChamado() {
         <Text style={{ fontWeight: "bold", marginBottom: 5 }}>
           Motivo da visita:
         </Text>
-        <Text>{params.motivos}</Text>
       </View>
 
       <View
@@ -55,7 +98,6 @@ export default function VisualizarChamado() {
         <Text style={{ fontWeight: "bold", marginBottom: 5 }}>
           Serviço realizado:
         </Text>
-        <Text>{params.servico}</Text>
       </View>
 
       <View
@@ -208,6 +250,6 @@ export default function VisualizarChamado() {
       >
         <Text>Baixar PDF</Text>
       </TouchableOpacity>
-    </ScrollView>
+    </ContainerScroll>
   );
 }

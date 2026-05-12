@@ -1,12 +1,12 @@
+import {
+  EvilIcons,
+  FontAwesome6,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
+
 import { Stack, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { FlatList, StyleSheet, Text } from "react-native";
 
 import { Alert } from "react-native";
 
@@ -15,7 +15,20 @@ import {
   excluirChamadoStorage,
 } from "../../database/chamadoStorage";
 
-import { TextStatus } from "./styled";
+import { neutralColors } from "@/src/utils/colors";
+import {
+  BotaoContinuar,
+  BotaoExcluir,
+  ChamadoContainer,
+  Container,
+  DivBotoes,
+  DivChegada,
+  TextoBotao,
+  TextoHorarioChegada,
+  TextoId,
+  TextoStatus,
+  TextoTitulo,
+} from "./styled";
 
 export default function ChamadosAbertos() {
   const [chamadosAbertos, setChamadosAbertos] = useState([]);
@@ -49,11 +62,8 @@ export default function ChamadosAbertos() {
           text: "Sim, excluir",
           style: "destructive",
           onPress: async () => {
-            // 1. Exclui do banco de dados (AsyncStorage)
             await excluirChamadoStorage(idParaExcluir);
 
-            // 2. Atualiza a lista na tela NA MESMA HORA
-            // Isso filtra a lista atual e remove o card que acabou de ser excluído
             setChamadosAbertos((listaAntiga) =>
               listaAntiga.filter((chamado) => chamado.id !== idParaExcluir),
             );
@@ -63,38 +73,54 @@ export default function ChamadosAbertos() {
     );
   };
 
-  // Função que diz como cada "card" de chamado vai ser desenhado na tela
   const renderItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.card}
-      onPress={() => {
-        router.push({
-          pathname: "/chamado",
-          params: {
-            idChamado: item.id,
-            horaChegada: item.chegada,
-            unidade: item.unidade,
-          },
-        });
+    <ChamadoContainer
+      style={{
+        shadowColor: "#00000078",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.15,
+        shadowRadius: 8,
+        elevation: 6,
       }}
     >
-      <Text style={styles.textoCard}>Chamado ID: {item.id}</Text>
-      <Text style={styles.textoCard}>Chegada: {item.chegada}</Text>
-      <TextStatus>Status: Em Andamento</TextStatus>
-
-      <TouchableOpacity
-        style={styles.botaoExcluir}
-        onPress={() => handleExcluirChamado(item.id)}
-      >
-        <Text style={styles.textoBotao}>Excluir Chamado</Text>
-      </TouchableOpacity>
-    </TouchableOpacity>
+      <TextoId>ID: {item.id}</TextoId>
+      <DivChegada>
+        <FontAwesome6 name="clock" size={20} color={neutralColors.n70} />
+        <TextoHorarioChegada>Chegada: {item.chegada}</TextoHorarioChegada>
+      </DivChegada>
+      <TextoStatus>Status: Em Andamento</TextoStatus>
+      <DivBotoes>
+        <BotaoContinuar
+          onPress={() => {
+            router.push({
+              pathname: "/chamado",
+              params: {
+                idChamado: item.id,
+                horaChegada: item.chegada,
+                unidade: item.unidade,
+              },
+            });
+          }}
+        >
+          <EvilIcons name="pencil" size={24} color="#fff" />
+          <TextoBotao>Continuar</TextoBotao>
+        </BotaoContinuar>
+        <BotaoExcluir onPress={() => handleExcluirChamado(item.id)}>
+          <MaterialCommunityIcons
+            name="delete-forever"
+            size={20}
+            color="#fff"
+          />
+          <TextoBotao>Excluir</TextoBotao>
+        </BotaoExcluir>
+      </DivBotoes>
+    </ChamadoContainer>
   );
 
   return (
-    <View style={styles.container}>
+    <Container>
       <Stack.Screen options={{ title: "Chamados Abertos" }} />
-      <Text style={styles.titulo}>Chamados em Andamento</Text>
+      <TextoTitulo>Chamados em Andamento</TextoTitulo>
 
       <FlatList
         data={chamadosAbertos}
@@ -104,21 +130,11 @@ export default function ChamadosAbertos() {
           <Text style={styles.vazio}>Nenhum chamado aberto no momento.</Text>
         }
       />
-    </View>
+    </Container>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: "#f5f5f5" },
-  titulo: { fontSize: 22, fontWeight: "bold", marginBottom: 20 },
-  card: {
-    backgroundColor: "#fff",
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 10,
-    elevation: 2,
-  },
-  textoCard: { fontSize: 16, marginBottom: 5 },
   textoStatus: { fontSize: 14, color: "#e67e22", fontWeight: "bold" },
   vazio: { textAlign: "center", marginTop: 50, fontSize: 16, color: "#777" },
 });
