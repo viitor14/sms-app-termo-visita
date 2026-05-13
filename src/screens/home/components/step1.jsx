@@ -139,9 +139,7 @@ export default function Step1({
           <FormCheckbox
             label="Suporte ao usuário"
             selected={formData.motivos.includes("Suporte ao usuário")}
-            onPress={() =>
-              handleToggleArray("motivos", "ImpreSuporte ao usuáriossoras")
-            }
+            onPress={() => handleToggleArray("motivos", "Suporte ao usuário")}
           />
         </DivCheckBoxs>
       </FormSection>
