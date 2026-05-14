@@ -46,7 +46,7 @@ export const atualizarChamadoStorage = async (idChamado, dadosAtualizados) => {
 
     const novaLista = chamadosExistentes.map((chamado) => {
       if (chamado.id === idChamado) {
-        return { ...chamado, ...dadosAtualizados, status: "concluido" };
+        return { ...chamado, ...dadosAtualizados };
       }
       return chamado;
     });

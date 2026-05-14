@@ -113,7 +113,10 @@ export default function Home() {
       console.log("Chegue aqui");
       try {
         console.log("Atualizando chamado com ID:", updatedFormData);
-        await atualizarChamadoStorage(params.idChamado, updatedFormData);
+        await atualizarChamadoStorage(params.idChamado, {
+          ...updatedFormData,
+          status: "concluido",
+        });
       } catch (error) {
         console.error("Erro ao atualizar banco de dados:", error);
         alert(

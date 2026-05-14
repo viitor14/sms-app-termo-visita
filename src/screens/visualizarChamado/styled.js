@@ -45,6 +45,15 @@ export const DivNomeDaUnidade = styled.View`
   padding: 6px 0;
 `;
 
+export const BotaoEditarUnidade = styled.TouchableOpacity`
+  background-color: ${primaryColors.primary};
+  padding: 6px 12px;
+  border-radius: 8px;
+  align-items: center;
+  flex-direction: row;
+  gap: 6px;
+`;
+
 export const TituloDiv = styled.Text`
   font-family: "Poppins_500Medium";
   color: ${neutralColors.neutral};

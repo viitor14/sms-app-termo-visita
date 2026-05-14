@@ -1,14 +1,17 @@
-import { FontAwesome6 } from "@expo/vector-icons/";
+import { EvilIcons, FontAwesome6 } from "@expo/vector-icons/";
 import { Stack, useLocalSearchParams } from "expo-router";
-import React from "react";
-import { Image, Text, View } from "react-native";
+import React, { useState } from "react";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { gerarTermoPDF } from "../../utils/pdfGenerator";
 
+import { atualizarChamadoStorage } from "../../database/chamadoStorage";
 import { neutralColors, primaryColors } from "../../utils/colors";
+import { listaUnidades } from "../../utils/listaUnidades";
 
 import {
   Assinatura,
   BotaoBaixarPDF,
+  BotaoEditarUnidade,
   Container,
   ContainerScroll,
   DivAssinatura,
@@ -30,6 +33,22 @@ import {
 export default function VisualizarChamado() {
   const params = useLocalSearchParams();
 
+  const [unidadeSelecionada, setUnidadeSelecionada] = useState(params.unidade);
+
+  const [estaEditando, setEstaEditando] = useState(false);
+
+  const handleEscolherUnidade = async (novaUnidade) => {
+    try {
+      await atualizarChamadoStorage(params.id, {
+        unidade: novaUnidade,
+      });
+      setUnidadeSelecionada(novaUnidade);
+      setEstaEditando(false);
+    } catch (error) {
+      console.error("Erro ao salvar a nova unidade:", error);
+    }
+  };
+
   return (
     <ContainerScroll>
       <Stack.Screen options={{ title: "Detalhes da Visita" }} />
@@ -47,7 +66,80 @@ export default function VisualizarChamado() {
           </DivVisitaId>
           <DivNomeDaUnidade>
             <TituloDiv>UNIDADE</TituloDiv>
-            <TextoUnidade>{params.unidade}</TextoUnidade>
+            {!estaEditando ? (
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <TextoUnidade>{unidadeSelecionada}</TextoUnidade>
+
+                <BotaoEditarUnidade onPress={() => setEstaEditando(true)}>
+                  <EvilIcons name="pencil" size={24} color="#fff" />
+                  <Text
+                    style={{
+                      color: "#fff",
+                      fontFamily: "Poppins_500Medium",
+                      fontSize: 14,
+                      marginTop: 4,
+                    }}
+                  >
+                    Editar
+                  </Text>
+                </BotaoEditarUnidade>
+              </View>
+            ) : (
+              /* Se ESTIVER editando, mostra a lista para toque direto na tela */
+              <View
+                style={{
+                  marginTop: 10,
+                  backgroundColor: "#f9f9f9",
+                  borderRadius: 8,
+                  padding: 5,
+                }}
+              >
+                {listaUnidades.map((opcao, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => handleEscolherUnidade(opcao)}
+                    style={{
+                      paddingVertical: 12,
+                      paddingHorizontal: 10,
+                      borderBottomWidth:
+                        index === listaUnidades.length - 1 ? 0 : 1, // Tira a borda do último
+                      borderBottomColor: "#eee",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily: "Poppins_400Regular",
+                        color: "#333",
+                        fontSize: 16,
+                      }}
+                    >
+                      {opcao}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+
+                {/* Botão para cancelar e fechar a lista sem mudar nada */}
+                <TouchableOpacity
+                  onPress={() => setEstaEditando(false)}
+                  style={{ marginTop: 15, alignItems: "center" }}
+                >
+                  <Text
+                    style={{
+                      fontFamily: "Poppins_500Medium",
+                      color: "#e74c3c",
+                    }}
+                  >
+                    Cancelar Edição
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </DivNomeDaUnidade>
         </Container>
 
