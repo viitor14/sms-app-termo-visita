@@ -1,44 +1,53 @@
-import { FontAwesome6 } from "@expo/vector-icons";
-import { Stack, useRouter } from "expo-router";
-import React, { useEffect, useState } from "react";
-import {
-  FlatList,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { FontAwesome6, MaterialIcons } from "@expo/vector-icons";
+import { Stack, useFocusEffect, useRouter } from "expo-router";
+import React, { useCallback, useState } from "react";
+import { FlatList, ScrollView, Text, View } from "react-native";
 import { buscarChamados } from "../../database/chamadoStorage";
+
+import { neutralColors, primaryColors } from "@/src/utils/colors";
+import {
+  BotaoItemDropdown,
+  BotaoListaUnidades,
+  BotaoVisualizarTermo,
+  Container,
+  DivDataEHora,
+  DivIconView,
+  DivNomeUnidade,
+  DivVisitas,
+  ListaUnidadesAberta,
+  NomeUnidade,
+  TextoFiltrarUnidade,
+  TextoItemDropdown,
+  TextoNomeUnidade,
+} from "./styled";
 
 export default function Historico() {
   const router = useRouter();
   const [chamadosConcluidos, setChamadosConcluidos] = useState([]);
-  const [filtroUnidade, setFiltroUnidade] = useState("Todas"); // Começa mostrando todas
+  const [filtroUnidade, setFiltroUnidade] = useState("Todas");
   const [unidadesDisponiveis, setUnidadesDisponiveis] = useState([]);
+  const [listaAberta, setListaAberta] = useState(false);
+  useFocusEffect(
+    useCallback(() => {
+      const carregarHistorico = async () => {
+        const chamados = await buscarChamados();
+        const concluidos = chamados.filter((c) => c.status === "concluido");
 
-  useEffect(() => {
-    const carregarHistorico = async () => {
-      const chamados = await buscarChamados();
+        concluidos.sort((a, b) => Number(b.id) - Number(a.id));
 
-      const concluidos = chamados.filter((c) => c.status === "concluido");
+        setChamadosConcluidos(concluidos);
 
-      // Ordena do mais recente para o mais antigo (usando o ID que criamos com Date.now)
-      concluidos.sort((a, b) => Number(b.id) - Number(a.id));
+        const unidadesUnicas = [
+          "Todas",
+          ...new Set(concluidos.map((c) => c.unidade)),
+        ];
+        setUnidadesDisponiveis(unidadesUnicas);
+      };
 
-      setChamadosConcluidos(concluidos);
+      carregarHistorico();
+    }, []),
+  );
 
-      // Extrai uma lista única de todas as unidades que ele já visitou para montar os botões de filtro
-      const unidadesUnicas = [
-        "Todas",
-        ...new Set(concluidos.map((c) => c.unidade)),
-      ];
-      setUnidadesDisponiveis(unidadesUnicas);
-    };
-
-    carregarHistorico();
-  }, []);
-
-  // A MÁGICA DO FILTRO: Essa variável decide o que vai pra tela baseada no botão clicado
   const chamadosFiltrados =
     filtroUnidade === "Todas"
       ? chamadosConcluidos
@@ -70,39 +79,51 @@ export default function Historico() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#f5f5f5", padding: 10 }}>
+    <Container>
       <Stack.Screen options={{ title: "Histórico de Visitas" }} />
 
-      {/* BARRA DE FILTROS DIRETA E RÁPIDA */}
-      <View style={{ marginBottom: 15 }}>
-        <Text style={{ fontWeight: "bold", marginBottom: 5 }}>
-          Filtrar por unidade:
-        </Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {unidadesDisponiveis.map((unidade, index) => (
-            <TouchableOpacity
-              key={index}
-              style={{
-                backgroundColor:
-                  filtroUnidade === unidade ? "#2ecc71" : "#e0e0e0",
-                paddingHorizontal: 15,
-                paddingVertical: 8,
-                borderRadius: 20,
-                marginRight: 10,
-              }}
-              onPress={() => setFiltroUnidade(unidade)}
+      <View style={{ marginBottom: 15, zIndex: 10 }}>
+        <TextoFiltrarUnidade>Filtrar por unidade:</TextoFiltrarUnidade>
+
+        <BotaoListaUnidades onPress={() => setListaAberta(!listaAberta)}>
+          <TextoNomeUnidade>{filtroUnidade}</TextoNomeUnidade>
+
+          {listaAberta ? (
+            <MaterialIcons name="keyboard-arrow-up" size={24} color="black" />
+          ) : (
+            <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
+          )}
+        </BotaoListaUnidades>
+
+        {listaAberta && (
+          <ListaUnidadesAberta>
+            <ScrollView
+              showsVerticalScrollIndicator={true}
+              nestedScrollEnabled={true}
             >
-              <Text
-                style={{
-                  color: filtroUnidade === unidade ? "#fff" : "#333",
-                  fontWeight: filtroUnidade === unidade ? "bold" : "normal",
-                }}
-              >
-                {unidade}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+              {unidadesDisponiveis.map((unidade, index) => {
+                const itemSelecionado = filtroUnidade === unidade;
+                const ultimoItem = index === unidadesDisponiveis.length - 1;
+
+                return (
+                  <BotaoItemDropdown
+                    key={index}
+                    isSelected={itemSelecionado}
+                    isLastItem={ultimoItem}
+                    onPress={() => {
+                      setFiltroUnidade(unidade);
+                      setListaAberta(false);
+                    }}
+                  >
+                    <TextoItemDropdown isSelected={itemSelecionado}>
+                      {unidade}
+                    </TextoItemDropdown>
+                  </BotaoItemDropdown>
+                );
+              })}
+            </ScrollView>
+          </ListaUnidadesAberta>
+        )}
       </View>
 
       {/* LISTA DOS CHAMADOS */}
@@ -110,47 +131,73 @@ export default function Historico() {
         data={chamadosFiltrados}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View
+          <DivVisitas
             style={{
-              backgroundColor: "#fff",
-              padding: 15,
-              borderRadius: 10,
-              marginBottom: 10,
               elevation: 2,
             }}
           >
-            <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-              {item.unidade}
-            </Text>
-            <Text style={{ color: "#666" }}>
-              Data: {new Date(Number(item.id)).toLocaleDateString("pt-BR")}
-            </Text>
-            <Text style={{ color: "#666" }}>
-              Horário: {item.chegada} às {item.saida}
-            </Text>
-
-            {/* BOTÃO VISUALIZAR DIRETO NO CARD */}
-            <TouchableOpacity
-              style={{
-                marginTop: 10,
-                flexDirection: "row",
-                alignItems: "center",
-                backgroundColor: "#f0f0f0",
-                padding: 10,
-                borderRadius: 8,
-                justifyContent: "center",
-              }}
-              onPress={() => handleVisualizar(item)}
-            >
+            <DivNomeUnidade>
+              <NomeUnidade>{item.unidade}</NomeUnidade>
               <FontAwesome6
-                name="eye"
-                size={16}
-                color="#333"
-                style={{ marginRight: 8 }}
+                name="building"
+                size={18}
+                color={neutralColors.neutral}
               />
-              <Text style={{ fontWeight: "bold" }}>Ver Detalhes do Termo</Text>
-            </TouchableOpacity>
-          </View>
+            </DivNomeUnidade>
+            <DivDataEHora>
+              <View
+                style={{
+                  justifyContent: "space-between",
+                }}
+              >
+                <View style={{ flexDirection: "row", gap: 10 }}>
+                  <FontAwesome6
+                    name="calendar"
+                    size={18}
+                    color={neutralColors.neutral}
+                  />
+                  <Text
+                    style={{
+                      fontFamily: "Poppins_500Medium",
+                      color: neutralColors.neutral,
+                    }}
+                  >
+                    {item.data}
+                  </Text>
+                </View>
+                <View style={{ flexDirection: "row", gap: 10 }}>
+                  <FontAwesome6
+                    name="clock"
+                    size={18}
+                    color={neutralColors.neutral}
+                  />
+                  <Text
+                    style={{
+                      fontFamily: "Poppins_500Medium",
+                      color: neutralColors.neutral,
+                    }}
+                  >
+                    {item.chegada} às {item.saida}
+                  </Text>
+                </View>
+              </View>
+
+              <BotaoVisualizarTermo onPress={() => handleVisualizar(item)}>
+                <DivIconView>
+                  <FontAwesome6
+                    name="eye"
+                    size={18}
+                    color={primaryColors.primary}
+                  />
+                </DivIconView>
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={24}
+                  color={neutralColors.neutral}
+                />
+              </BotaoVisualizarTermo>
+            </DivDataEHora>
+          </DivVisitas>
         )}
         ListEmptyComponent={
           <Text style={{ textAlign: "center", marginTop: 20, color: "#999" }}>
@@ -158,6 +205,6 @@ export default function Historico() {
           </Text>
         }
       />
-    </View>
+    </Container>
   );
 }
