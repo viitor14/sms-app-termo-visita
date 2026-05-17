@@ -197,14 +197,9 @@ export default function Step1({
       <FormSection title="Situação final *">
         <DivCheckBoxs>
           <FormCheckbox
-            label="Problema Resolvido"
+            label="Problema resolvido"
             selected={formData.situacao.includes("Problema Resolvido")}
             onPress={() => handleToggleArray("situacao", "Problema Resolvido")}
-          />
-          <FormCheckbox
-            label="Necessita Retorno"
-            selected={formData.situacao.includes("Necessita Retorno")}
-            onPress={() => handleToggleArray("situacao", "Necessita Retorno")}
           />
 
           <FormCheckbox
