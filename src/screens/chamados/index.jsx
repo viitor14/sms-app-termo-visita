@@ -4,9 +4,9 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 
-import { Stack, useRouter } from "expo-router";
-import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text } from "react-native";
+import { useFocusEffect, useRouter } from "expo-router";
+import React, { useCallback, useState } from "react";
+import { StyleSheet, Text } from "react-native";
 
 import { Alert } from "react-native";
 
@@ -27,30 +27,31 @@ import {
   TextoHorarioChegada,
   TextoId,
   TextoStatus,
-  TextoTitulo,
 } from "./styled";
 
 export default function ChamadosAbertos() {
   const [chamadosAbertos, setChamadosAbertos] = useState([]);
   const router = useRouter();
 
-  useEffect(() => {
-    const carregarDados = async () => {
-      try {
-        const todosChamados = await buscarChamados();
+  useFocusEffect(
+    useCallback(() => {
+      const carregarDados = async () => {
+        try {
+          const todosChamados = await buscarChamados();
 
-        const apenasAbertos = todosChamados.filter(
-          (chamado) => chamado.status === "em_andamento",
-        );
+          const apenasAbertos = todosChamados.filter(
+            (chamado) => chamado.status === "em_andamento",
+          );
 
-        setChamadosAbertos(apenasAbertos);
-      } catch (error) {
-        console.error("Erro ao carregar a tela: ", error);
-      }
-    };
+          setChamadosAbertos(apenasAbertos);
+        } catch (error) {
+          console.error("Erro ao carregar a tela: ", error);
+        }
+      };
 
-    carregarDados();
-  }, []);
+      carregarDados();
+    }, []), // Mantém o array vazio para otimizar a performance
+  );
 
   const handleExcluirChamado = (idParaExcluir) => {
     Alert.alert(
@@ -119,17 +120,11 @@ export default function ChamadosAbertos() {
 
   return (
     <Container>
-      <Stack.Screen options={{ title: "Chamados Abertos" }} />
-      <TextoTitulo>Chamados em Andamento</TextoTitulo>
-
-      <FlatList
-        data={chamadosAbertos}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-        ListEmptyComponent={
-          <Text style={styles.vazio}>Nenhum chamado aberto no momento.</Text>
-        }
-      />
+      {chamadosAbertos.length === 0 ? (
+        <Text style={styles.vazio}>Nenhum chamado aberto no momento.</Text>
+      ) : (
+        chamadosAbertos.map((chamado) => renderItem({ item: chamado }))
+      )}
     </Container>
   );
 }

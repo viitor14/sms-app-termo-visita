@@ -7,8 +7,7 @@ import {
 } from "../../utils/colors";
 
 export const Container = styled.View`
-  flex: 1;
-  padding: 20px;
+  padding: 20px 0;
   background-color: ${neutralColors.n95};
 `;
 
@@ -32,6 +31,8 @@ export const ChamadoContainer = styled.TouchableOpacity`
   overflow: hidden;
   margin-bottom: 15px;
   gap: 10px;
+  border-left-width: 8px;
+  border-left-color: ${primaryColors.primary};
 `;
 export const DivChegada = styled.View`
   flex-direction: row;
