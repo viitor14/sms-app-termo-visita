@@ -7,6 +7,11 @@ export const Container = styled.View`
   padding: 14px 20px;
 `;
 
+export const DivFilter = styled.View`
+  flex-direction: row;
+  gap: 10px;
+`;
+
 export const TextoFiltrarUnidade = styled.Text`
   font-size: 18px;
   font-family: "Poppins_600SemiBold";
@@ -21,6 +26,18 @@ export const BotaoListaUnidades = styled.TouchableOpacity`
   padding: 12px;
   border-radius: 8px;
   background-color: #fff;
+`;
+
+export const BotaoFiltroData = styled.TouchableOpacity`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid ${neutralColors.n70};
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #fff;
+  gap: 6px;
+  flex: 1;
 `;
 
 export const TextoNomeUnidade = styled.Text`
@@ -39,11 +56,16 @@ export const ListaUnidadesAberta = styled.View.attrs({
     shadowRadius: 10,
   },
 })`
+  position: absolute;
+  top: 55px; /* Ajuste aqui se a lista ficar muito longe ou em cima do botão */
+  left: 0;
+  right: 0;
   background-color: #fff;
-  border: 1px solid ${neutralColors.n70};
   border-radius: 8px;
-  max-height: 200px;
-  margin-top: 10px;
+  width: 100%;
+  z-index: 999;
+  padding: 0px 0px 10px;
+  border: 2px solid ${neutralColors.n70};
 `;
 
 export const BotaoItemDropdown = styled.TouchableOpacity`
@@ -60,7 +82,6 @@ export const BotaoItemDropdown = styled.TouchableOpacity`
 export const TextoItemDropdown = styled.Text`
   font-size: 16px;
 
-  /* Recebe a prop "isSelected" para mudar cor e peso da fonte */
   color: ${(props) => (props.isSelected ? "#000" : neutralColors.neutral)};
   font-family: ${(props) =>
     props.isSelected ? "Poppins_600SemiBold" : "Poppins_500Medium"};

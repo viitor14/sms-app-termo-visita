@@ -11,6 +11,14 @@ export const Container = styled.View`
   background-color: ${neutralColors.n95};
 `;
 
+export const TextoSemChamado = styled.Text`
+  text-align: center;
+  font-size: 16px;
+  color: ${neutralColors.neutral};
+  font-family: "Poppins_400Regular";
+  margin: 30px;
+`;
+
 export const TextoTitulo = styled.Text`
   font-size: 24px;
   color: ${neutralColors.n10};

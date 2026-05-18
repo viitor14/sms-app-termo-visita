@@ -7,7 +7,7 @@ import {
 
 import { useFocusEffect, useRouter } from "expo-router";
 import React, { useCallback, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import { Alert } from "react-native";
 
@@ -27,6 +27,7 @@ import {
   TextoBotao,
   TextoHorarioChegada,
   TextoId,
+  TextoSemChamado,
   TextoStatus,
 } from "./styled";
 
@@ -138,7 +139,7 @@ export default function ChamadosAbertos() {
   return (
     <Container>
       {chamadosAbertos.length === 0 ? (
-        <Text style={styles.vazio}>Nenhum chamado aberto no momento.</Text>
+        <TextoSemChamado>Nenhum chamado aberto no momento.</TextoSemChamado>
       ) : (
         chamadosAbertos.map((chamado) => renderItem({ item: chamado }))
       )}
@@ -147,5 +148,5 @@ export default function ChamadosAbertos() {
 }
 
 const styles = StyleSheet.create({
-  vazio: { textAlign: "center", marginTop: 50, fontSize: 16, color: "#777" },
+  vazio: { textAlign: "center", fontSize: 16, color: "#777" },
 });
