@@ -4,16 +4,22 @@ import { neutralColors, primaryColors } from "../../utils/colors";
 export const Container = styled.View`
   background-color: ${neutralColors.n95};
   align-items: center;
-  padding: 24px 0;
+  padding-bottom: 24px;
   flex: 1;
 `;
 
 export const Header = styled.View`
   background-color: #fff;
-  padding: 14px 20px;
+  padding: 40px 14px 6px;
   width: 100%;
   justify-content: center;
 `;
+
+export const DivChamadosAbertos = styled.View`
+  margin-top: 20px;
+  width: 100%;
+`;
+
 export const DivBotoesActions = styled.View`
   width: 100%;
   justify-content: space-between;

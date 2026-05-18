@@ -43,7 +43,7 @@ export default function RootLayout() {
         name="chamado"
         options={{
           title: "Termo de Visita",
-          headerStyle: { backgroundColor: "#007AFF" },
+          headerStyle: { backgroundColor: "#003FA3" },
           headerTintColor: "#fff",
         }}
       />

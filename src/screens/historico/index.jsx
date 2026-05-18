@@ -25,6 +25,7 @@ export default function Historico() {
   const router = useRouter();
   const [chamadosConcluidos, setChamadosConcluidos] = useState([]);
   const [filtroUnidade, setFiltroUnidade] = useState("Todas");
+  const [filtroData, setFiltroData] = useState("Todas");
   const [unidadesDisponiveis, setUnidadesDisponiveis] = useState([]);
   const [listaAberta, setListaAberta] = useState(false);
   useFocusEffect(
@@ -48,10 +49,23 @@ export default function Historico() {
     }, []),
   );
 
-  const chamadosFiltrados =
-    filtroUnidade === "Todas"
-      ? chamadosConcluidos
-      : chamadosConcluidos.filter((c) => c.unidade === filtroUnidade);
+  const chamadosFiltrados = chamadosConcluidos.filter((chamado) => {
+    // 1. O chamado passa na unidade se o filtro for "Todas" OU se for igual à unidade escolhida
+    const passaNaUnidade =
+      filtroUnidade === "Todas" || chamado.unidade === filtroUnidade;
+
+    // 2. O chamado passa na data se o filtro for "Todas" OU se a data for igual à data escolhida
+    // (Lembre-se de substituir 'chamado.data' pelo nome real do campo que guarda a data no seu banco)
+    const passaNaData = filtroData === "Todas" || chamado.data === filtroData;
+
+    // 3. O card só será exibido se passar nos dois testes ao mesmo tempo
+    return passaNaUnidade && passaNaData;
+  });
+
+  //const chamadosFiltrados =
+  // filtroUnidade === "Todas"
+  //    ? chamadosConcluidos
+  //    : chamadosConcluidos.filter((c) => c.unidade === filtroUnidade);
 
   const handleVisualizar = (chamado) => {
     router.push({

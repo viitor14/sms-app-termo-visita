@@ -7,7 +7,7 @@ import {
 } from "../../utils/colors";
 
 export const Container = styled.View`
-  padding: 20px 0;
+  //padding: 20px 0;
   background-color: ${neutralColors.n95};
 `;
 
@@ -30,7 +30,7 @@ export const ChamadoContainer = styled.TouchableOpacity`
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: 15px;
-  gap: 10px;
+  gap: 24px;
   border-left-width: 8px;
   border-left-color: ${primaryColors.primary};
 `;
@@ -51,14 +51,23 @@ export const TextoHorarioChegada = styled.Text`
 `;
 
 export const TextoStatus = styled.Text`
-  font-size: 16px;
+  font-size: 12px;
   color: ${secondaryColors.secondary};
-  font-family: "Poppins_700Bold";
+  font-family: "Poppins_600SemiBold";
 `;
 
 export const DivBotoes = styled.View`
   flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   gap: 10px;
+`;
+export const DivStatusChamado = styled.View`
+  background-color: ${secondaryColors.s95};
+  flex-direction: row;
+  gap: 6px;
+  padding: 2px 4px;
+  border-radius: 8px;
 `;
 
 export const BotaoContinuar = styled.TouchableOpacity`
@@ -74,19 +83,18 @@ export const BotaoContinuar = styled.TouchableOpacity`
 
 export const BotaoExcluir = styled.TouchableOpacity`
   background-color: ${tertiaryColors.tertiary};
-  padding: 6px 10px;
+  padding: 6px;
   border-radius: 6px;
   align-items: center;
   justify-content: center;
   align-self: flex-end;
   flex-direction: row;
   gap: 6px;
-  width: 40%;
 `;
 
 export const TextoBotao = styled.Text`
   color: #fff;
-  font-size: 14px;
+  font-size: 12px;
   font-family: "Poppins_600SemiBold";
   margin-top: 4px;
 `;

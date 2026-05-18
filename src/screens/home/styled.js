@@ -11,7 +11,7 @@ import {
 } from "../../utils/colors";
 export const Container = styled.ScrollView`
   flex: 1;
-  padding: 6px;
+  //padding: 6px;
   background-color: ${neutralColors.p90};
 `;
 
@@ -21,6 +21,8 @@ export const DivNav = styled.View`
   align-items: center;
   justify-content: center;
   padding: 12px;
+  background-color: #fff;
+  z-index: 998;
 `;
 
 export const Title = styled.Text`
@@ -34,7 +36,7 @@ export const Title = styled.Text`
 export const DivForm = styled.View`
   display: flex;
   gap: 10px;
-  padding: 10px;
+  padding: 16px;
   border-radius: 6px;
 `;
 
@@ -189,6 +191,7 @@ export const StepperContainer = styled.View`
   width: 90%; /* Ajuste conforme necessário para centralizar */
   align-self: center;
   position: relative; /* Importante para a linha de fundo */
+  z-index: 999;
 `;
 
 export const BackgroundLine = styled.View`
@@ -197,7 +200,7 @@ export const BackgroundLine = styled.View`
   left: 10%;
   right: 10%;
   height: 2px;
-  background-color: ${neutralColors.neutral};
+  background-color: ${neutralColors.n70};
   z-index: -1;
 `;
 
@@ -227,7 +230,7 @@ export const StepCircle = styled.View`
       ? primaryColors.primary
       : props.active
         ? secondaryColors.secondary
-        : neutralColors.neutral};
+        : neutralColors.n70};
 
   /* Efeito de Halo de Luz (apenas para o passo ativo) */
   ${(props) =>

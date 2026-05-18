@@ -6,6 +6,7 @@ import {
   BotaoAcao,
   Container,
   DivBotoesActions,
+  DivChamadosAbertos,
   Header,
   TextoBotoes,
 } from "./styled";
@@ -28,7 +29,6 @@ export default function TelaInicial() {
         data: new Date().toLocaleDateString("pt-BR"),
       });
 
-      // 4. Navegamos para a tela de chamado, mas agora mandamos o ID oficial do banco!
       router.push({
         pathname: "/chamado",
         params: {
@@ -77,7 +77,12 @@ export default function TelaInicial() {
           paddingBottom: 32,
         }}
       >
-        <ChamadosAbertos />
+        <DivChamadosAbertos>
+          <Text style={{ fontFamily: "Poppins_500Medium", fontSize: 20 }}>
+            Meus chamados abertos
+          </Text>
+          <ChamadosAbertos />
+        </DivChamadosAbertos>
         <DivBotoesActions>
           <BotaoAcao onPress={handleAbrirNovoChamado}>
             <FontAwesome5 name="clipboard-list" size={24} color="#fff" />

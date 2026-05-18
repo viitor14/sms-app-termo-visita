@@ -1,12 +1,13 @@
 import {
-  EvilIcons,
   FontAwesome6,
+  Ionicons,
   MaterialCommunityIcons,
+  MaterialIcons,
 } from "@expo/vector-icons";
 
 import { useFocusEffect, useRouter } from "expo-router";
 import React, { useCallback, useState } from "react";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 import { Alert } from "react-native";
 
@@ -15,14 +16,14 @@ import {
   excluirChamadoStorage,
 } from "../../database/chamadoStorage";
 
-import { neutralColors } from "@/src/utils/colors";
+import { neutralColors, secondaryColors } from "../../utils/colors";
 import {
-  BotaoContinuar,
   BotaoExcluir,
   ChamadoContainer,
   Container,
   DivBotoes,
   DivChegada,
+  DivStatusChamado,
   TextoBotao,
   TextoHorarioChegada,
   TextoId,
@@ -50,7 +51,7 @@ export default function ChamadosAbertos() {
       };
 
       carregarDados();
-    }, []), // Mantém o array vazio para otimizar a performance
+    }, []),
   );
 
   const handleExcluirChamado = (idParaExcluir) => {
@@ -76,6 +77,7 @@ export default function ChamadosAbertos() {
 
   const renderItem = ({ item }) => (
     <ChamadoContainer
+      key={item.id}
       style={{
         shadowColor: "#00000078",
         shadowOffset: { width: 0, height: 2 },
@@ -83,29 +85,44 @@ export default function ChamadosAbertos() {
         shadowRadius: 8,
         elevation: 6,
       }}
+      onPress={() => {
+        router.push({
+          pathname: "/chamado",
+          params: {
+            idChamado: item.id,
+            horaChegada: item.chegada,
+            unidade: item.unidade,
+          },
+        });
+      }}
     >
       <TextoId>ID: {item.id}</TextoId>
-      <DivChegada>
-        <FontAwesome6 name="clock" size={20} color={neutralColors.n70} />
-        <TextoHorarioChegada>Chegada: {item.chegada}</TextoHorarioChegada>
-      </DivChegada>
-      <TextoStatus>Status: Em Andamento</TextoStatus>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <DivChegada>
+          <FontAwesome6 name="clock" size={20} color={neutralColors.n70} />
+          <TextoHorarioChegada>Chegada: {item.chegada}</TextoHorarioChegada>
+        </DivChegada>
+        <MaterialIcons
+          name="keyboard-arrow-right"
+          size={24}
+          color={neutralColors.n70}
+        />
+      </View>
       <DivBotoes>
-        <BotaoContinuar
-          onPress={() => {
-            router.push({
-              pathname: "/chamado",
-              params: {
-                idChamado: item.id,
-                horaChegada: item.chegada,
-                unidade: item.unidade,
-              },
-            });
-          }}
-        >
-          <EvilIcons name="pencil" size={24} color="#fff" />
-          <TextoBotao>Continuar</TextoBotao>
-        </BotaoContinuar>
+        <DivStatusChamado>
+          <Ionicons
+            name="ellipsis-horizontal-circle-outline"
+            size={20}
+            color={secondaryColors.secondary}
+          />
+          <TextoStatus>Em Andamento</TextoStatus>
+        </DivStatusChamado>
         <BotaoExcluir onPress={() => handleExcluirChamado(item.id)}>
           <MaterialCommunityIcons
             name="delete-forever"
@@ -130,6 +147,5 @@ export default function ChamadosAbertos() {
 }
 
 const styles = StyleSheet.create({
-  textoStatus: { fontSize: 14, color: "#e67e22", fontWeight: "bold" },
   vazio: { textAlign: "center", marginTop: 50, fontSize: 16, color: "#777" },
 });
