@@ -1,4 +1,5 @@
 import { FontAwesome6, MaterialIcons } from "@expo/vector-icons";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { Stack, useFocusEffect, useRouter } from "expo-router";
 import React, { useCallback, useState } from "react";
 import { FlatList, ScrollView, Text, View } from "react-native";
@@ -25,24 +26,51 @@ export default function Historico() {
   const router = useRouter();
   const [chamadosConcluidos, setChamadosConcluidos] = useState([]);
   const [filtroUnidade, setFiltroUnidade] = useState("Todas");
-  const [filtroData, setFiltroData] = useState("Todas");
   const [unidadesDisponiveis, setUnidadesDisponiveis] = useState([]);
-  const [listaAberta, setListaAberta] = useState(false);
+  const [listaUnidadeAberta, setListaUnidadeAberta] = useState(false); // Renomeado para clareza
+  const [showDatePicker, setShowDatePicker] = useState(false); // Controla se o calendário está aberto
+  const [dateSelecionada, setDateSelecionada] = useState(new Date());
+  const [filtroData, setFiltroData] = useState("Todas");
+  const [datasDisponiveis, setDatasDisponiveis] = useState([]);
+  const [listaDataAberta, setListaDataAberta] = useState(false); // Novo estado para abrir/fechar
+
+  const formatarDataParaString = (data) => {
+    const dia = String(data.getDate()).padStart(2, "0");
+    const mes = String(data.getMonth() + 1).padStart(2, "0");
+    const ano = data.getFullYear();
+    return `${dia}/${mes}/${ano}`;
+  };
+
+  const onChangeDate = (event, selectedDate) => {
+    setShowDatePicker(false); // Esconde o calendário logo após escolher
+
+    if (event.type === "set" && selectedDate) {
+      setDateSelecionada(selectedDate);
+      // Transforma a data do calendário no formato "17/05/2026"
+      const dataFormatada = formatarDataParaString(selectedDate);
+      setFiltroData(dataFormatada);
+    }
+  };
+  const limparFiltroData = () => {
+    setFiltroData("Todas");
+  };
   useFocusEffect(
     useCallback(() => {
       const carregarHistorico = async () => {
         const chamados = await buscarChamados();
         const concluidos = chamados.filter((c) => c.status === "concluido");
-
         concluidos.sort((a, b) => Number(b.id) - Number(a.id));
-
         setChamadosConcluidos(concluidos);
-
         const unidadesUnicas = [
           "Todas",
           ...new Set(concluidos.map((c) => c.unidade)),
         ];
         setUnidadesDisponiveis(unidadesUnicas);
+        const datasUnicas = [
+          "Todas",
+          ...new Set(concluidos.map((c) => c.data)),
+        ];
+        setDatasDisponiveis(datasUnicas);
       };
 
       carregarHistorico();
@@ -50,22 +78,11 @@ export default function Historico() {
   );
 
   const chamadosFiltrados = chamadosConcluidos.filter((chamado) => {
-    // 1. O chamado passa na unidade se o filtro for "Todas" OU se for igual à unidade escolhida
     const passaNaUnidade =
       filtroUnidade === "Todas" || chamado.unidade === filtroUnidade;
-
-    // 2. O chamado passa na data se o filtro for "Todas" OU se a data for igual à data escolhida
-    // (Lembre-se de substituir 'chamado.data' pelo nome real do campo que guarda a data no seu banco)
     const passaNaData = filtroData === "Todas" || chamado.data === filtroData;
-
-    // 3. O card só será exibido se passar nos dois testes ao mesmo tempo
     return passaNaUnidade && passaNaData;
   });
-
-  //const chamadosFiltrados =
-  // filtroUnidade === "Todas"
-  //    ? chamadosConcluidos
-  //    : chamadosConcluidos.filter((c) => c.unidade === filtroUnidade);
 
   const handleVisualizar = (chamado) => {
     router.push({
@@ -96,48 +113,97 @@ export default function Historico() {
     <Container>
       <Stack.Screen options={{ title: "Histórico de Visitas" }} />
 
-      <View style={{ marginBottom: 15, zIndex: 10 }}>
-        <TextoFiltrarUnidade>Filtrar por unidade:</TextoFiltrarUnidade>
+      {/* ÁREA DOS FILTROS */}
+      <View
+        style={{ marginBottom: 15, zIndex: 10, flexDirection: "row", gap: 10 }}
+      >
+        {/* DROPDOWN DE UNIDADES */}
+        <View style={{ flex: 1, zIndex: listaUnidadeAberta ? 20 : 10 }}>
+          <TextoFiltrarUnidade>Unidade:</TextoFiltrarUnidade>
+          <BotaoListaUnidades
+            onPress={() => {
+              setListaUnidadeAberta(!listaUnidadeAberta);
+              setListaDataAberta(false); // Fecha o outro dropdown se abrir este
+            }}
+          >
+            <TextoNomeUnidade numberOfLines={1}>
+              {filtroUnidade}
+            </TextoNomeUnidade>
+            <MaterialIcons
+              name={
+                listaUnidadeAberta ? "keyboard-arrow-up" : "keyboard-arrow-down"
+              }
+              size={24}
+              color="black"
+            />
+          </BotaoListaUnidades>
 
-        <BotaoListaUnidades onPress={() => setListaAberta(!listaAberta)}>
-          <TextoNomeUnidade>{filtroUnidade}</TextoNomeUnidade>
-
-          {listaAberta ? (
-            <MaterialIcons name="keyboard-arrow-up" size={24} color="black" />
-          ) : (
-            <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
+          {listaUnidadeAberta && (
+            <ListaUnidadesAberta>
+              <ScrollView
+                showsVerticalScrollIndicator={true}
+                nestedScrollEnabled={true}
+              >
+                {unidadesDisponiveis.map((unidade, index) => {
+                  const itemSelecionado = filtroUnidade === unidade;
+                  const ultimoItem = index === unidadesDisponiveis.length - 1;
+                  return (
+                    <BotaoItemDropdown
+                      key={index}
+                      isSelected={itemSelecionado}
+                      isLastItem={ultimoItem}
+                      onPress={() => {
+                        setFiltroUnidade(unidade);
+                        setListaUnidadeAberta(false);
+                      }}
+                    >
+                      <TextoItemDropdown isSelected={itemSelecionado}>
+                        {unidade}
+                      </TextoItemDropdown>
+                    </BotaoItemDropdown>
+                  );
+                })}
+              </ScrollView>
+            </ListaUnidadesAberta>
           )}
-        </BotaoListaUnidades>
+        </View>
 
-        {listaAberta && (
-          <ListaUnidadesAberta>
-            <ScrollView
-              showsVerticalScrollIndicator={true}
-              nestedScrollEnabled={true}
-            >
-              {unidadesDisponiveis.map((unidade, index) => {
-                const itemSelecionado = filtroUnidade === unidade;
-                const ultimoItem = index === unidadesDisponiveis.length - 1;
+        {/* DROPDOWN DE DATAS (NOVO) */}
+        <View style={{ flex: 1, zIndex: 10 }}>
+          <TextoFiltrarUnidade>Data:</TextoFiltrarUnidade>
 
-                return (
-                  <BotaoItemDropdown
-                    key={index}
-                    isSelected={itemSelecionado}
-                    isLastItem={ultimoItem}
-                    onPress={() => {
-                      setFiltroUnidade(unidade);
-                      setListaAberta(false);
-                    }}
-                  >
-                    <TextoItemDropdown isSelected={itemSelecionado}>
-                      {unidade}
-                    </TextoItemDropdown>
-                  </BotaoItemDropdown>
-                );
-              })}
-            </ScrollView>
-          </ListaUnidadesAberta>
-        )}
+          <BotaoListaUnidades
+            onPress={() => {
+              setShowDatePicker(true);
+              setListaUnidadeAberta(false); // Fecha o dropdown de unidades se estiver aberto
+            }}
+          >
+            <TextoNomeUnidade numberOfLines={1}>{filtroData}</TextoNomeUnidade>
+
+            {/* Se tiver uma data filtrada, mostra um X para limpar. Se não, mostra o ícone de calendário */}
+            {filtroData !== "Todas" ? (
+              <MaterialIcons
+                name="close"
+                size={24}
+                color="red"
+                onPress={limparFiltroData} // Botão de limpar!
+              />
+            ) : (
+              <FontAwesome6 name="calendar" size={18} color="black" />
+            )}
+          </BotaoListaUnidades>
+
+          {/* O Calendário Invisível (Ele só aparece quando showDatePicker for true) */}
+          {showDatePicker && (
+            <DateTimePicker
+              value={dateSelecionada}
+              mode="date"
+              display="default"
+              onChange={onChangeDate}
+              locale="pt-BR"
+            />
+          )}
+        </View>
       </View>
 
       {/* LISTA DOS CHAMADOS */}
@@ -145,11 +211,7 @@ export default function Historico() {
         data={chamadosFiltrados}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <DivVisitas
-            style={{
-              elevation: 2,
-            }}
-          >
+          <DivVisitas style={{ elevation: 2 }}>
             <DivNomeUnidade>
               <NomeUnidade>{item.unidade}</NomeUnidade>
               <FontAwesome6
@@ -159,11 +221,7 @@ export default function Historico() {
               />
             </DivNomeUnidade>
             <DivDataEHora>
-              <View
-                style={{
-                  justifyContent: "space-between",
-                }}
-              >
+              <View style={{ justifyContent: "space-between" }}>
                 <View style={{ flexDirection: "row", gap: 10 }}>
                   <FontAwesome6
                     name="calendar"
