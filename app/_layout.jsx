@@ -10,11 +10,27 @@ import {
   Poppins_900Black,
   useFonts,
 } from "@expo-google-fonts/poppins";
+import NetInfo from "@react-native-community/netinfo";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import { executarSincronizacaoEmBackground } from "../src/services/syncService";
 
 export default function RootLayout() {
+  useEffect(() => {
+    // Liga o radar: toda vez que o status da internet mudar, essa função roda
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      // Se tiver internet conectada, ele aciona o motor de sincronização
+      if (state.isConnected && state.isInternetReachable) {
+        executarSincronizacaoEmBackground();
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   const [fontesCarregadas] = useFonts({
     Poppins_100Thin,
     Poppins_200ExtraLight,
@@ -26,6 +42,7 @@ export default function RootLayout() {
     Poppins_800ExtraBold,
     Poppins_900Black,
   });
+
   useEffect(() => {
     if (fontesCarregadas) {
       SplashScreen.hideAsync();

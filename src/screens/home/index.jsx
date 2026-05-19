@@ -3,6 +3,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { Alert, View } from "react-native";
 import { atualizarChamadoStorage } from "../../database/chamadoStorage";
+import { executarSincronizacaoEmBackground } from "../../services/syncService";
 import { gerarTermoPDF } from "../../utils/pdfGenerator";
 import Step1 from "./components/step1";
 import Step2 from "./components/step2";
@@ -26,6 +27,8 @@ import {
 
 export default function Home() {
   const params = useLocalSearchParams();
+  console.log(params);
+
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     unidade: "",
@@ -113,10 +116,13 @@ export default function Home() {
       console.log("Chegue aqui");
       try {
         console.log("Atualizando chamado com ID:", updatedFormData);
-        await atualizarChamadoStorage(params.idChamado, {
+        const response = await atualizarChamadoStorage(params.idChamado, {
           ...updatedFormData,
           status: "concluido",
+          sincronizado: false,
         });
+        console.log(response);
+        executarSincronizacaoEmBackground();
       } catch (error) {
         console.error("Erro ao atualizar banco de dados:", error);
         alert(

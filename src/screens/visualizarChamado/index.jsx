@@ -32,6 +32,7 @@ import {
 
 export default function VisualizarChamado() {
   const params = useLocalSearchParams();
+  console.log(params);
 
   const [unidadeSelecionada, setUnidadeSelecionada] = useState(params.unidade);
 
