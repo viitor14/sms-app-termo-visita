@@ -1,9 +1,9 @@
 import { FontAwesome6, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Stack, useFocusEffect, useRouter } from "expo-router";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { FlatList, ScrollView, Text, View } from "react-native";
-import { buscarChamados } from "../../database/chamadoStorage";
+import { buscarChamadosDaNuvem } from "../../services/api";
 
 import {
   neutralColors,
@@ -34,10 +34,12 @@ export default function Historico() {
   const [unidadesDisponiveis, setUnidadesDisponiveis] = useState([]);
   const [listaUnidadeAberta, setListaUnidadeAberta] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [renderKey, setRenderKey] = useState(0);
   const [dateSelecionada, setDateSelecionada] = useState(new Date());
   const [filtroData, setFiltroData] = useState("Todas");
   const [datasDisponiveis, setDatasDisponiveis] = useState([]);
   const [listaDataAberta, setListaDataAberta] = useState(false);
+  const [isOffline, setIsOffline] = useState(false);
 
   const formatarDataParaString = (data) => {
     const dia = String(data.getDate()).padStart(2, "0");
@@ -60,56 +62,47 @@ export default function Historico() {
   };
   useFocusEffect(
     useCallback(() => {
-      const carregarHistorico = async () => {
-        const chamados = await buscarChamados();
-        const concluidos = chamados.filter((c) => c.status === "concluido");
-        concluidos.sort((a, b) => Number(b.id) - Number(a.id));
-        setChamadosConcluidos(concluidos);
-        const unidadesUnicas = [
-          "Todas",
-          ...new Set(concluidos.map((c) => c.unidade)),
-        ];
-        setUnidadesDisponiveis(unidadesUnicas);
-        const datasUnicas = [
-          "Todas",
-          ...new Set(concluidos.map((c) => c.data)),
-        ];
-        setDatasDisponiveis(datasUnicas);
+      const carregarHistoricoDaNuvem = async () => {
+        try {
+          const chamadosDaNuvem = await buscarChamadosDaNuvem();
+          if (chamadosDaNuvem) {
+            setChamadosConcluidos(chamadosDaNuvem);
+            setIsOffline(false);
+            setRenderKey((prev) => prev + 1);
+            const unidadesUnicas = [
+              "Todas",
+              ...new Set(chamadosDaNuvem.map((c) => c.unidade)),
+            ];
+            setUnidadesDisponiveis(unidadesUnicas);
+            const datasUnicas = [
+              "Todas",
+              ...new Set(chamadosDaNuvem.map((c) => c.data)),
+            ];
+            setDatasDisponiveis(datasUnicas);
+          }
+        } catch (error) {
+          console.log("Impossível carregar o histórico: celular offline.");
+          setChamadosConcluidos([]);
+          setIsOffline(true);
+        }
       };
-
-      carregarHistorico();
+      carregarHistoricoDaNuvem();
     }, []),
   );
 
-  const chamadosFiltrados = chamadosConcluidos.filter((chamado) => {
-    const passaNaUnidade =
-      filtroUnidade === "Todas" || chamado.unidade === filtroUnidade;
-    const passaNaData = filtroData === "Todas" || chamado.data === filtroData;
-    return passaNaUnidade && passaNaData;
-  });
+  const chamadosFiltrados = useMemo(() => {
+    return chamadosConcluidos.filter((chamado) => {
+      const passaNaUnidade =
+        filtroUnidade === "Todas" || chamado.unidade === filtroUnidade;
+      const passaNaData = filtroData === "Todas" || chamado.data === filtroData;
+      return passaNaUnidade && passaNaData;
+    });
+  }, [chamadosConcluidos, filtroUnidade, filtroData]);
 
   const handleVisualizar = (chamado) => {
     router.push({
       pathname: "/visualizarChamado",
-      params: {
-        id: chamado.id,
-        unidade: chamado.unidade,
-        chegada: chamado.chegada,
-        saida: chamado.saida,
-        data: chamado.data,
-        motivos: chamado.motivos,
-        equipamento: chamado.equipamento,
-        numeroSerial: chamado.numeroSerie,
-        observacao: chamado.obsTecnicas,
-        servico: chamado.servico,
-        situacao: chamado.situacao,
-        nomeResponsavel: chamado.responsavelNome,
-        cargoResponsavel: chamado.responsavelCargo,
-        imgAssinaturaResponsavel: chamado.imgAssinaturaResponsavel,
-        nomeTecnico: chamado.tecnico,
-        matriculaTecnico: chamado.matricula,
-        imgAssinaturaTecnico: chamado.imgAssinaturaTecnico,
-      },
+      params: { id: chamado.id },
     });
   };
 
@@ -252,12 +245,45 @@ export default function Historico() {
         </View>
       </View>
 
+      {isOffline && (
+        <View
+          style={{
+            backgroundColor: tertiaryColors.t95,
+            padding: 12,
+            borderRadius: 8,
+            marginBottom: 15,
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 10,
+          }}
+        >
+          <Ionicons
+            name="cloud-offline"
+            size={24}
+            color={tertiaryColors.tertiary}
+          />
+          <Text
+            style={{
+              color: tertiaryColors.tertiary,
+              flex: 1,
+              fontFamily: "Poppins_500Medium",
+              fontSize: 14,
+            }}
+          >
+            Você está sem internet. Conecte-se para visualizar o histórico da
+            equipe.
+          </Text>
+        </View>
+      )}
       {/* LISTA DOS CHAMADOS */}
       <FlatList
+        key={renderKey}
         data={chamadosFiltrados}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id || item.idChamado}
+        style={{ flex: 1 }}
+        contentContainerStyle={{ gap: 15, paddingBottom: 30, paddingTop: 5 }}
         renderItem={({ item }) => (
-          <DivVisitas style={{ elevation: 2 }}>
+          <DivVisitas style={{ elevation: 2, marginBottom: 2, marginTop: 2 }}>
             <DivNomeUnidade>
               <NomeUnidade>{item.unidade}</NomeUnidade>
               <FontAwesome6

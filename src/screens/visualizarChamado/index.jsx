@@ -1,12 +1,14 @@
 import { EvilIcons, FontAwesome6 } from "@expo/vector-icons/";
 import { Stack, useLocalSearchParams } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import { gerarTermoPDF } from "../../utils/pdfGenerator";
-
-import { atualizarChamadoStorage } from "../../database/chamadoStorage";
+import {
+  atualizarUnidadeNaNuvem,
+  buscarChamadoPorId,
+} from "../../services/api";
 import { neutralColors, primaryColors } from "../../utils/colors";
 import { listaUnidades } from "../../utils/listaUnidades";
+import { gerarTermoPDF } from "../../utils/pdfGenerator";
 
 import {
   Assinatura,
@@ -32,23 +34,75 @@ import {
 
 export default function VisualizarChamado() {
   const params = useLocalSearchParams();
+  const [chamado, setChamado] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const [unidadeSelecionada, setUnidadeSelecionada] = useState("");
   console.log(params);
-
-  const [unidadeSelecionada, setUnidadeSelecionada] = useState(params.unidade);
-
   const [estaEditando, setEstaEditando] = useState(false);
+
+  useEffect(() => {
+    const carregarDadosDoChamado = async () => {
+      try {
+        setLoading(true);
+        const dados = await buscarChamadoPorId(params.id);
+        console.log(dados);
+        setChamado(dados);
+        setUnidadeSelecionada(dados.unidade);
+      } catch (error) {
+        alert("Não foi possível carregar os detalhes deste chamado.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (params.id) {
+      carregarDadosDoChamado();
+    }
+  }, [params.id]);
 
   const handleEscolherUnidade = async (novaUnidade) => {
     try {
-      await atualizarChamadoStorage(params.id, {
-        unidade: novaUnidade,
-      });
-      setUnidadeSelecionada(novaUnidade);
       setEstaEditando(false);
+      setUnidadeSelecionada(novaUnidade);
+      await atualizarUnidadeNaNuvem(params.id, novaUnidade);
     } catch (error) {
-      console.error("Erro ao salvar a nova unidade:", error);
+      console.error("Erro ao salvar a nova unidade na nuvem:", error);
+      alert("Erro ao sincronizar a nova unidade. Verifique a internet.");
     }
   };
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text style={{ fontFamily: "Poppins_500Medium", fontSize: 16 }}>
+          Buscando dados na nuvem...
+        </Text>
+      </View>
+    );
+  }
+
+  if (!chamado) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text style={{ fontFamily: "Poppins_500Medium" }}>
+          Chamado não encontrado.
+        </Text>
+      </View>
+    );
+  }
+
+  const listaSituacoes = Array.isArray(chamado.situacao)
+    ? chamado.situacao
+    : chamado.situacao
+      ? String(chamado.situacao).split(",")
+      : [];
+
+  const listaMotivos = Array.isArray(chamado.motivos)
+    ? chamado.motivos
+    : chamado.motivos
+      ? String(chamado.motivos).split(",")
+      : [];
 
   return (
     <ContainerScroll>
@@ -62,7 +116,9 @@ export default function VisualizarChamado() {
                 color: "#000",
               }}
             >
-              {params.id}
+              {params.id
+                ? params.id.split("-")[0].toUpperCase()
+                : "AGUARDANDO..."}
             </TituloDiv>
           </DivVisitaId>
           <DivNomeDaUnidade>
@@ -92,7 +148,6 @@ export default function VisualizarChamado() {
                 </BotaoEditarUnidade>
               </View>
             ) : (
-              /* Se ESTIVER editando, mostra a lista para toque direto na tela */
               <View
                 style={{
                   marginTop: 10,
@@ -165,7 +220,7 @@ export default function VisualizarChamado() {
                 </Text>
               </DivDataIcon>
               <Text style={{ fontFamily: "Poppins_500Medium" }}>
-                {params.data}
+                {chamado.data}
               </Text>
             </DivData>
             <DivData>
@@ -186,23 +241,25 @@ export default function VisualizarChamado() {
                 </Text>
               </DivDataIcon>
               <Text style={{ fontFamily: "Poppins_500Medium" }}>
-                {params.chegada} - {params.saida}
+                {chamado.chegada} - {chamado.saida}
               </Text>
             </DivData>
           </DivDataEHorario>
           <DivMotivoEServico>
             <TituloDiv>Motivo da Visita</TituloDiv>
             <DivMotivoVisita>
-              <Text style={{ fontFamily: "Poppins_400Regular" }}>
-                {params.motivos}
-              </Text>
+              {listaMotivos.map((item, index) => (
+                <Text key={index} style={{ fontFamily: "Poppins_500Medium" }}>
+                  • {item}
+                </Text>
+              ))}
             </DivMotivoVisita>
           </DivMotivoEServico>
           <DivMotivoEServico>
             <TituloDiv>Serviço Realizado</TituloDiv>
             <DivMotivoVisita>
               <Text style={{ fontFamily: "Poppins_400Regular" }}>
-                {params.servico}
+                {chamado.servico}
               </Text>
             </DivMotivoVisita>
           </DivMotivoEServico>
@@ -242,7 +299,9 @@ export default function VisualizarChamado() {
                   marginTop: -6,
                 }}
               >
-                {params.equipamento}
+                {chamado.equipamento
+                  ? `${chamado.equipamento}`
+                  : "Não informado"}
               </Text>
             </View>
             <View style={{}}>
@@ -262,8 +321,8 @@ export default function VisualizarChamado() {
                   marginTop: -6,
                 }}
               >
-                {params.numeroSerial
-                  ? `${params.numeroSerial}`
+                {chamado.numeroSerial
+                  ? `${chamado.numeroSerial}`
                   : "Não informado"}
               </Text>
             </View>
@@ -275,20 +334,22 @@ export default function VisualizarChamado() {
             <TituloDiv>Observações do Técnico</TituloDiv>
             <DivMotivoVisita>
               <Text style={{ fontFamily: "Poppins_400Regular" }}>
-                {params.observacao || "Nenhuma observação registrada."}
+                {chamado.observacao || "Nenhuma observação registrada."}
               </Text>
             </DivMotivoVisita>
           </View>
           <View>
             <TituloDiv>Situação Final</TituloDiv>
             <View style={{ gap: 6 }}>
-              {params.situacao
-                ? params.situacao.split(",").map((item, index) => (
-                    <TextoSituacao status={item.trim()} key={index}>
-                      {item.trim()}
-                    </TextoSituacao>
-                  ))
-                : "Nenhuma situação registrada."}
+              {listaSituacoes.length > 0 ? (
+                listaSituacoes.map((item, index) => (
+                  <TextoSituacao status={item.trim()} key={index}>
+                    {item.trim()}
+                  </TextoSituacao>
+                ))
+              ) : (
+                <TextoSituacao>Nenhuma situação registrada.</TextoSituacao>
+              )}
             </View>
           </View>
         </Container>
@@ -306,9 +367,9 @@ export default function VisualizarChamado() {
               ASSINATURA DO RESPONSÁVEL
             </Text>
             <Assinatura>
-              {params.imgAssinaturaResponsavel && (
+              {chamado.imgAssinaturaResponsavel && (
                 <Image
-                  source={{ uri: params.imgAssinaturaResponsavel }}
+                  source={{ uri: chamado.imgAssinaturaResponsavel }}
                   style={{
                     width: 200,
                     height: 100,
@@ -327,7 +388,7 @@ export default function VisualizarChamado() {
                   fontSize: 18,
                 }}
               >
-                {params.nomeResponsavel} - {params.cargoResponsavel}
+                {chamado.responsavelNome} - {chamado.responsavelCargo}
               </Text>
               <Text
                 style={{
@@ -353,9 +414,9 @@ export default function VisualizarChamado() {
               ASSINATURA DO TÉCNICO
             </Text>
             <Assinatura>
-              {params.imgAssinaturaTecnico && (
+              {chamado.imgAssinaturaTecnico && (
                 <Image
-                  source={{ uri: params.imgAssinaturaTecnico }}
+                  source={{ uri: chamado.imgAssinaturaTecnico }}
                   style={{
                     width: 200,
                     height: 100,
@@ -374,7 +435,7 @@ export default function VisualizarChamado() {
                   fontSize: 18,
                 }}
               >
-                {params.nomeTecnico} - {params.matriculaTecnico}
+                {chamado.tecnico}- {chamado.matricula}
               </Text>
               <Text
                 style={{
@@ -400,9 +461,9 @@ export default function VisualizarChamado() {
         <BotaoBaixarPDF
           onPress={() => {
             const dadosParaPDF = {
-              ...params,
-              motivos: [params.motivos],
-              situacao: [params.situacao],
+              ...chamado,
+              motivos: [chamado.motivos],
+              situacao: [chamado.situacao],
             };
 
             gerarTermoPDF(dadosParaPDF);

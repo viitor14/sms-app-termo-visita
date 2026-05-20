@@ -91,9 +91,7 @@ export const DivVisitas = styled.View`
   background-color: #fff;
   padding: 14px;
   border-radius: 10px;
-  margin-bottom: 10px;
   flex-direction: column;
-  flex: 1;
 `;
 
 export const DivNomeUnidade = styled.View`

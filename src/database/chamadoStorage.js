@@ -22,7 +22,6 @@ export const abrirNovoChamadoStorage = async (dadosIniciais) => {
 
     // Cria um ID único para o chamado (usando a data/hora exata em milissegundos)
     const novoChamado = {
-      id: Date.now().toString(),
       status: "em_andamento",
       ...dadosIniciais,
     };

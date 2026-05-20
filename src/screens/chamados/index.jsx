@@ -97,7 +97,9 @@ export default function ChamadosAbertos() {
         });
       }}
     >
-      <TextoId>ID: {item.id}</TextoId>
+      <TextoId>
+        ID: {item.id ? item.id.split("-")[0].toUpperCase() : "AGUARDANDO..."}
+      </TextoId>
       <View
         style={{
           flexDirection: "row",

@@ -1,4 +1,5 @@
 import { FontAwesome5 } from "@expo/vector-icons/";
+import * as Crypto from "expo-crypto";
 import { useRouter } from "expo-router";
 import React from "react";
 import { ScrollView, StyleSheet, Text } from "react-native";
@@ -24,7 +25,10 @@ export default function TelaInicial() {
         minute: "2-digit",
       });
 
+      const novoId = Crypto.randomUUID();
+
       const chamadoCriado = await abrirNovoChamadoStorage({
+        id: novoId,
         chegada: horaAtual,
         data: new Date().toLocaleDateString("pt-BR"),
       });
